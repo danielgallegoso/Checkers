@@ -31,6 +31,23 @@ actions, given a state: are of a list of all the tiles a piece goes over in one 
    if there is at least one must-move, we must take a must-move action.
    
 successor state, given an action and a state:
+  if the action is of length two, and the tiles are one diagonal away from eachother:
+    set the second tile equal to the first tile
+    set the first tile to 0
+  else:
+    for every two consecutive tiles in list:
+      set the second tile equal to the first tile
+      take the tile in between them, remove opponents piece (set to 0)
+      set the first tile = 0
+
+IsEnd(state) = true if there are no red or black pieces on all 64 tiles.
+2 players: 0 = us, 1 = them
+Utility(s): +∞ if we win, 0 if draw, −− if they win
+Use minimax, possibly alpha-beta pruning
+
+      
+
+    
 
 
             
