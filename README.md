@@ -16,7 +16,7 @@ actions, given a state: are of a list of all the tiles a piece goes over in one 
     must-moves: moves that take pieces. Remember, if you can take a piece, you must.
 
   for every checker on team:
-    check northwest, northeast, southwest, southeast:
+    check northwest, northeast, (southwest and southeast for kings):
       if tile is out-of-bounds or occupied by same color piece: continue
       elif tile is empty:
         add to optional-moves
@@ -44,6 +44,11 @@ IsEnd(state) = true if there are no red or black pieces on all 64 tiles.
 2 players: 0 = us, 1 = them
 Utility(s): +∞ if we win, 0 if draw, −− if they win
 Use minimax, possibly alpha-beta pruning
+because there are a large number of moves, we will be recursing to depth d, and using a heuristic.
+
+heuristic for now: maximize (# of our pieces - # of their pieces)
+
+
 
       
 
