@@ -10,7 +10,7 @@ state: 8x8 board represented by two nested arrays of length 8. upper left corner
     
 starting state: 
 
-actions, given a state: are of a list of all the tiles a piece goes over in one turn. The length of the list is 2 or greater, as a piece could visit multiple tiles along the course of one turn if it takes multiple pieces.
+actions, given a state: are of a list of all the tiles a piece goes over in one turn, plus a boolean that describes if we've taken a piece or not. The length of the list is 2 or greater, as a piece could visit multiple tiles along the course of one turn if it takes multiple pieces.
   we'll keep track of two action lists:
     optional-moves: moves that move checkers to adjacent spaces:
     must-moves: moves that take pieces. Remember, if you can take a piece, you must.
