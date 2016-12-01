@@ -374,6 +374,16 @@ class checkersGame {
     }
 }
 
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
+
 class minimaxAgent { 
     constructor() {
         this.depth = 4;
@@ -446,7 +456,7 @@ class minimaxAgent {
             }
         } 
     var alpha_beta = [0 - Infinity, Infinity];
-    var best_action = get_best_action(checkersState, 0, self.depth, 0, alpha_beta);
+    var best_action = get_best_action(checkersState, 0, self.depth, 0, alpha_beta); //state, agent, max_depth = 4, depth, alpha_beta
     return best_action[0];
     }
 }
