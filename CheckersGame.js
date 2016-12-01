@@ -120,9 +120,9 @@ class checkersGame {
         if(eating == 0) {
             state.board[lastMove[1]][lastMove[0]] = state.board[firstMove[1]][firstMove[0]];
             if(agent == 0 && lastMove[1] == 7) {
-                state.board[lastMove[1]][lastMove[0]]++;
+                state.board[lastMove[1]][lastMove[0]]=2;
             } else if(agent == 1 && lastMove[1] == 0) {
-                state.board[lastMove[1]][lastMove[0]]++;
+                state.board[lastMove[1]][lastMove[0]]=4;
             }
             state.board[firstMove[1]][firstMove[0]] = 0;
         } else {
@@ -147,7 +147,7 @@ class checkersGame {
             } else {
                 state.numRedPieces = state.numRedPieces - moves.length + 1;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]] = 3;
+                    state.board[lastMove[0]][lastMove[1]] = 4;
                 }
             }
         }
