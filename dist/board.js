@@ -54,7 +54,7 @@ var Board = function (_React$Component) {
       board: board,
       selectedPiece: null,
       actions: [[[6, 0], [7, 1], 1]],
-      possibleActions: []
+      possibleActions: {}
     };
 
     _this.onGridClick = _this.onGridClick.bind(_this);
@@ -79,15 +79,17 @@ var Board = function (_React$Component) {
         } else {
           this.setState({
             selectedPiece: null,
-            possibleActions: []
+            possibleActions: {}
           });
         }
-      } else if (this.state.possibleActions.indexOf(id) >= 0) {
+      } else if (Object.keys(this.state.possibleActions).indexOf(id) >= 0) {
+        var i = Object.keys(this.state.possibleActions).indexOf(id);
+        var action = this.state.possibleActions[Object.keys(this.state.possibleActions)[i]];
         this.setState({
           selectedPiece: null,
-          possibleActions: []
+          possibleActions: {}
         });
-        console.log("Choose action: ", id);
+        console.log("Choose action: ", action);
         console.log("computer's turn");
       }
     }
@@ -99,11 +101,12 @@ var Board = function (_React$Component) {
   }, {
     key: "getPossibleActions",
     value: function getPossibleActions(id) {
-      var result = [];
+      var result = {};
       for (var i in this.state.actions) {
         var action = this.state.actions[i];
         if (this.getId(action[0][0], action[0][1]) == id) {
-          result.push(this.getId(action[action.length - 2][0], action[action.length - 2][1]));
+          var endId = this.getId(action[action.length - 2][0], action[action.length - 2][1]);
+          result[endId] = action;
         }
       }
       return result;
@@ -120,7 +123,7 @@ var Board = function (_React$Component) {
             "grid": true,
             "off-grid": (i - j) % 2 == 0,
             "selected-grid": this.state.selectedPiece == id,
-            "possible-action": this.state.possibleActions.indexOf(id) >= 0
+            "possible-action": Object.keys(this.state.possibleActions).indexOf(id) >= 0
           });
           var piece = null;
           if (this.state.board[i][j] != 0) {
