@@ -27,24 +27,32 @@ var Board = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
     var game = new checkersGame();
-    console.log(game.getLegalActions(1));
     _this.state = {
       game: game,
       board: game.board,
       selectedPiece: null,
       actions: game.getLegalActions(1),
-      possibleActions: {}
+      possibleActions: {},
+      isWin: null
     };
 
     _this.onGridClick = _this.onGridClick.bind(_this);
     _this.getPossibleActions = _this.getPossibleActions.bind(_this);
+    _this.computersTurn = _this.computersTurn.bind(_this);
     return _this;
   }
 
-  // action: [starting point, intermediate states, ending point, piece taken]
-
-
   _createClass(Board, [{
+    key: "computersTurn",
+    value: function computersTurn(game) {
+      console.log("computersTurn");
+      var action = game.getLegalActions(0)[0];
+      return game.generateSuccessor(action, 0);
+    }
+
+    // action: [starting point, intermediate states, ending point, piece taken]
+
+  }, {
     key: "onGridClick",
     value: function onGridClick(e) {
       var id = e.currentTarget.id;
@@ -64,12 +72,14 @@ var Board = function (_React$Component) {
       } else if (Object.keys(this.state.possibleActions).indexOf(id) >= 0) {
         var i = Object.keys(this.state.possibleActions).indexOf(id);
         var action = this.state.possibleActions[Object.keys(this.state.possibleActions)[i]];
+        var game = this.computersTurn(this.state.game.generateSuccessor(action, 1));
         this.setState({
+          game: game,
+          board: game.board,
+          actions: game.getLegalActions(1),
           selectedPiece: null,
           possibleActions: {}
         });
-        console.log("Choose action: ", action);
-        console.log("computer's turn");
       }
     }
   }, {
@@ -127,10 +137,26 @@ var Board = function (_React$Component) {
           row
         );
       }
+      var win;
+      if (this.state.isWin == true) {
+        win = React.createElement(
+          "p",
+          null,
+          "You won"
+        );
+      } else if (this.state.isWin == false) {
+        win = React.createElement(
+          "p",
+          null,
+          "You lost"
+        );
+      }
+
       return React.createElement(
         "div",
         null,
-        board
+        board,
+        win
       );
     }
   }]);

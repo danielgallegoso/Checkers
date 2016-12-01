@@ -115,30 +115,33 @@ class checkersGame {
             state.board[firstMove[1]][firstMove[0]] = 0;
         } else {
             var containsUpgrade = false;
-            for (var i = 0; i < action.length -2; i ++) {
-                var first = action[i]
-                var second = action[i+1]
-                state.board[(first[1]+second[1])/2][(first[0]+second[0])/2] = 0
+            for (var i = 0; i < action.length - 2; i ++) {
+                var first = action[i];
+                var second = action[i+1];
+                // console.log('x:', (first[1] + second[1]) / 2, ' y:', (first[0] + second[0]) / 2);
+                state.board[(first[1] + second[1]) / 2][(first[0] + second[0]) / 2] = 0;
                 if (agent == 0 && second[1] == 7) {
                     containsUpgrade = true;
                 } else if (agent == 1 && second[1] == 0) {
                     containsUpgrade = true;
                 }
             }
-            state.board[lastMove[0]][lastMove[1]] = state.board[firstMove[0]][firstMove[1]];
-            state.board[firstMove[0]][firstMove[1]] = 0;
+            state.board[lastMove[1]][lastMove[0]] = state.board[firstMove[1]][firstMove[0]];
+            state.board[firstMove[1]][firstMove[0]] = 0;
+
             if (agent == 0 ){
-                state.numBlackPieces = state.numBlackPieces - moves.length + 1;
+                state.numBlackPieces = state.numBlackPieces - action.length + 2;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]]++;
+                    state.board[lastMove[1]][lastMove[0]]++;
                 }
             } else {
-                state.numRedPieces = state.numRedPieces - moves.length + 1;
+                state.numRedPieces = state.numRedPieces - action.length + 2;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]]++;
+                    state.board[lastMove[1]][lastMove[0]]++;
                 }
             }
         }
+
         return state;
     }
 
@@ -222,8 +225,8 @@ class checkersGame {
         if(piece == 1) {
             var foundMove = false;
             if (y+2 == 7) {
-                console.log('upgrade?')
-                piece = 2
+                console.log('upgrade?');
+                piece = 2;
             }
             if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]>2 && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
                 foundMove = true;
@@ -326,7 +329,7 @@ class checkersGame {
                 var oldValue = this.board[y-1][x-1];
                 this.board[y-1][x-1] = 0;
                 this.recursiveEatSearch(x-2, y-2, piece, actions, path);
-                this.board[y-1][x-1] = 0;
+                this.board[y-1][x-1] = oldValue;
                 path.pop();
             }
             if(!foundMove && path.length > 1) {
@@ -341,7 +344,7 @@ class checkersGame {
 
                 //console.log(actions);
             }
-        } else if (piece == 2) {
+        } else if (piece == 4) {
             var foundMove = false;
             if (this.inBounds(y+1, x+1) && (this.board[y+1][x+1] == 1 || this.board[y+1][x+1] == 2) && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
                 foundMove = true;
@@ -483,21 +486,21 @@ class minimaxAgent {
     }
 }
 
-minimaxAgent = new minimaxAgent();
-
-game = new checkersGame();
-
-/*
-game.board[3][2] = 3
-game.board[6][1] = 2
-game.board[6][5] = 0
-game.board[5][2] = 1
-game.board[7][4] = 0
-game.board[6][5] = 3
-game.board[5][6] = 0
-*/
-console.log(game.board)
-actions = game.getLegalActions(1);
-console.log(actions[0]);
-newGame = game.generateSuccessor(actions[0], 1);
-console.log(newGame.board)
+// minimaxAgent = new minimaxAgent();
+//
+// game = new checkersGame();
+//
+// /*
+// game.board[3][2] = 3
+// game.board[6][1] = 2
+// game.board[6][5] = 0
+// game.board[5][2] = 1
+// game.board[7][4] = 0
+// game.board[6][5] = 3
+// game.board[5][6] = 0
+// */
+// console.log(game.board)
+// actions = game.getLegalActions(1);
+// console.log(actions[0]);
+// newGame = game.generateSuccessor(actions[0], 1);
+// console.log(newGame.board)

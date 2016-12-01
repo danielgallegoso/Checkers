@@ -12,19 +12,25 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     var game = new checkersGame();
-    console.log(game.getLegalActions(1));
     this.state = {
       game: game,
       board: game.board,
       selectedPiece: null,
       actions: game.getLegalActions(1),
       possibleActions: {},
+      isWin: null,
     }
 
     this.onGridClick = this.onGridClick.bind(this);
     this.getPossibleActions = this.getPossibleActions.bind(this);
+    this.computersTurn = this.computersTurn.bind(this);
   }
 
+  computersTurn(game) {
+    console.log("computersTurn");
+    var action = game.getLegalActions(0)[0];
+    return game.generateSuccessor(action,0);
+  }
 
   // action: [starting point, intermediate states, ending point, piece taken]
   onGridClick(e) {
@@ -45,12 +51,14 @@ class Board extends React.Component {
     } else if (Object.keys(this.state.possibleActions).indexOf(id) >= 0) {
       var i = Object.keys(this.state.possibleActions).indexOf(id)
       var action = this.state.possibleActions[Object.keys(this.state.possibleActions)[i]]
+      var game = this.computersTurn(this.state.game.generateSuccessor(action, 1));
       this.setState({
+        game: game,
+        board: game.board,
+        actions: game.getLegalActions(1),
         selectedPiece: null,
         possibleActions: {},
       });
-      console.log("Choose action: ", action);
-      console.log("computer's turn");
     }
   }
 
@@ -105,9 +113,17 @@ class Board extends React.Component {
         </div>
       );
     }
+    var win;
+    if (this.state.isWin == true) {
+      win = <p>You won</p>;
+    } else if (this.state.isWin == false) {
+      win = <p>You lost</p>;
+    }
+
     return (
       <div>
         {board}
+        {win}
       </div>
     );
   }
