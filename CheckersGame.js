@@ -142,12 +142,12 @@ class checkersGame {
             if (agent == 0 ){
                 state.numBlackPieces = state.numBlackPieces - moves.length + 1;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]]++;
+                    state.board[lastMove[0]][lastMove[1]] = 2;
                 }
             } else {
                 state.numRedPieces = state.numRedPieces - moves.length + 1;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]]++;
+                    state.board[lastMove[0]][lastMove[1]] = 3;
                 }
             }
         }
@@ -510,13 +510,13 @@ game.board[6][5] = 3
 game.board[5][6] = 0
 */
 tester = "00000000~\
-00001000~\
+10000000~\
 00000000~\
-11111111~\
-11111111~\
+00010000~\
 00000000~\
-00000000~\
-01010100";
+00010000~\
+00003000~\
+00000000";
 game.setBoard(tester);
 console.log(game.board);
 /*
