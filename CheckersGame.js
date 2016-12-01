@@ -93,8 +93,10 @@ class checkersGame {
         var inputArray = input.split("~");
         console.log(inputArray);
         for (var i = 0; i < inputArray.length; i++) {
+            console.log(inputArray[i]);
             for (var j = 0; j < inputArray[i].length; j++) {
-                this.board[i][j] = inputArray[i][j];
+              console.log(i + " " + j);
+                this.board[i][j] = parseInt(inputArray[i][j]);
             }
         }
     }
@@ -499,9 +501,9 @@ class minimaxAgent {
     }
 }
 
-minimaxAgent = new minimaxAgent();
+//minimaxAgent = new minimaxAgent();
 
-game = new checkersGame();
+//game = new checkersGame();
 
 /*
 game.board[3][2] = 3
@@ -512,16 +514,7 @@ game.board[7][4] = 0
 game.board[6][5] = 3
 game.board[5][6] = 0
 */
-tester = "00000000~\
-00001000~\
-00000000~\
-11111111~\
-11111111~\
-00000000~\
-00000000~\
-01010100";
-game.setBoard(tester);
-console.log(game.board);
+
 /*
 console.log(game.board)
 actions = game.getLegalActions(1);

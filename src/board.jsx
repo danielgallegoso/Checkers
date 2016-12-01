@@ -12,6 +12,18 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     var game = new checkersGame();
+//     var tester =
+//     "00000000~\
+// 00100000~\
+// 03000000~\
+// 00001000~\
+// 00000000~\
+// 00000000~\
+// 00000000~\
+// 00000000";
+//
+//     game.setBoard(tester);
+    console.log(game.board);
     this.state = {
       game: game,
       board: game.board,
@@ -20,7 +32,7 @@ class Board extends React.Component {
       possibleActions: {},
       isWin: null,
     }
-
+    // console.log(game.board);
     this.onGridClick = this.onGridClick.bind(this);
     this.getPossibleActions = this.getPossibleActions.bind(this);
     this.computersTurn = this.computersTurn.bind(this);
@@ -79,6 +91,7 @@ class Board extends React.Component {
   }
 
   render() {
+    // console.log(this.state.board);
     var board = new Array(8);
     for (var i = 0; i < 8; i++) {
       var row = new Array(8);

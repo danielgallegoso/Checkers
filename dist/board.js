@@ -27,6 +27,18 @@ var Board = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
     var game = new checkersGame();
+    //     var tester =
+    //     "00000000~\
+    // 00100000~\
+    // 03000000~\
+    // 00001000~\
+    // 00000000~\
+    // 00000000~\
+    // 00000000~\
+    // 00000000";
+    //
+    //     game.setBoard(tester);
+    console.log(game.board);
     _this.state = {
       game: game,
       board: game.board,
@@ -35,7 +47,7 @@ var Board = function (_React$Component) {
       possibleActions: {},
       isWin: null
     };
-
+    // console.log(game.board);
     _this.onGridClick = _this.onGridClick.bind(_this);
     _this.getPossibleActions = _this.getPossibleActions.bind(_this);
     _this.computersTurn = _this.computersTurn.bind(_this);
@@ -103,6 +115,7 @@ var Board = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      // console.log(this.state.board);
       var board = new Array(8);
       for (var i = 0; i < 8; i++) {
         var row = new Array(8);
