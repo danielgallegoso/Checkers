@@ -1,8 +1,6 @@
 
 // Heuristics!!!!
 
-
-
 // 00 01 02
 // 10 11 12
 // 20 21 22 
@@ -11,8 +9,8 @@
 function numberOfPawns(state) {
     var numRedPawns= 0;
     var numBlackPawns = 0;
-    for (i = 0; i < state.WIDTH; i++) {
-        for (j = 0; j < state,WIDTH; j++) {
+    for (var i = 0; i < state.WIDTH; i++) {
+        for (var j = 0; j < state,WIDTH; j++) {
             if (state.board[i][j] == 1) {
                 numRedKings++;
             } else if (state.board[i][j] == 3) {
@@ -26,8 +24,8 @@ function numberOfPawns(state) {
 function numberOfKings(state) {
     var numRedKings = 0;
     var numBlackKings = 0;
-    for (i = 0; i < state.WIDTH; i++) {
-        for (j = 0; j < state,WIDTH; j++) {
+    for (var i = 0; i < state.WIDTH; i++) {
+        for (var j = 0; j < state,WIDTH; j++) {
             if (state.board[i][j] == 2) {
                 numRedKings++;
             } else if (state.board[i][j] == 4) {
@@ -42,8 +40,8 @@ function numberOfKings(state) {
 function numSafePawns(state) {
     var numRedPawns = 0;
     var numBlackPawns = 0;
-    for (i = 0; i < state.WIDTH; i++) {
-        for (j = 0; j < state,WIDTH; j++) {
+    for (var i = 0; i < state.WIDTH; i++) {
+        for (var j = 0; j < state,WIDTH; j++) {
             if (i == 0 || i == 7 || j == 0 || j == 7) {
                 if (state.board[i][j] == 1) {
                     numRedPawns++;
@@ -59,8 +57,8 @@ function numSafePawns(state) {
 function numSafeKings(state) {
     var numRedKings = 0;
     var numBlackKings = 0;
-    for (i = 0; i < state.WIDTH; i++) {
-        for (j = 0; j < state,WIDTH; j++) {
+    for (var i = 0; i < state.WIDTH; i++) {
+        for (var j = 0; j < state,WIDTH; j++) {
             if (i == 0 || i == 7 || j == 0 || j == 7) {
                 if (state.board[i][j] == 2) {
                     numRedKings++;
@@ -77,8 +75,8 @@ function numSafeKings(state) {
 function numMovablePawns (state) {
     var numRedPawns = 0;
     var numBlackPawns = 0;
-    for (var x = 0; x < this.WIDTH; x++) {
-        for(var y = 0; y < this.HEIGHT; y ++) {
+    for (var x = 0; x < state.WIDTH; x++) {
+        for(var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 1) {
                 if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
                     numRedPawns++;
@@ -144,7 +142,7 @@ function distanceToPromotion(state) {
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 1) {
-                RedPawnDistance = RedPawnDistance + (this.HEIGHT - 1 - y);
+                RedPawnDistance = RedPawnDistance + (state.HEIGHT - 1 - y);
             if (state.board[y][x] == 3) {
                 BlackPawnDistance = BlackPawnDistance + y
             }
