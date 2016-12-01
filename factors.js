@@ -75,8 +75,8 @@ function numSafeKings(state) {
 function numMovablePawns (state) {
     var numRedPawns = 0;
     var numBlackPawns = 0;
-    for (var x = 0; x < this.WIDTH; x++) {
-        for(var y = 0; y < this.HEIGHT; y ++) {
+    for (var x = 0; x < state.WIDTH; x++) {
+        for(var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 1) {
                 if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
                     numRedPawns++;
@@ -142,7 +142,7 @@ function distanceToPromotion(state) {
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 1) {
-                RedPawnDistance = RedPawnDistance + (this.HEIGHT - 1 - y);
+                RedPawnDistance = RedPawnDistance + (state.HEIGHT - 1 - y);
             if (state.board[y][x] == 3) {
                 BlackPawnDistance = BlackPawnDistance + y
             }
