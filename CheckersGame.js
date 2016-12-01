@@ -19,7 +19,7 @@ class checkersGame {
         for (var i = 0; i < 8; i++) {
             for (var j = 0; j < 8; j++) {
                 this.board[i][j] = 0;
-            } 
+            }
         }
         for (var i = 0; i < 3; i++){
             for(var j = (1 + i)%2; j < 8; j+=2) {
@@ -47,7 +47,7 @@ class checkersGame {
     isWin(agent) {
         if (agent  == 0) {
             if (this.numBlackPieces == 0) {
-                return true; 
+                return true;
             }
         } else if (agent == 1) {
             if(this.numRedPieces == 0) {
@@ -55,7 +55,7 @@ class checkersGame {
             }
         }
         return false;
-    } 
+    }
 
     isLose(agent) {
         if (agent  == 0) {
@@ -89,7 +89,7 @@ class checkersGame {
 
     // action = [[(0,0), ... , (4,4)], 1]
     // If the second element of the array is 1, then the action involves eating pieces
-    // If not, then the action does not involve eating pieces. 
+    // If not, then the action does not involve eating pieces.
     /*
     generateSuccessor(action, agent) {
         var state = new checkersGame();
@@ -139,14 +139,14 @@ class checkersGame {
                         }
                         if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]==0) {
                             actions.push([[x, y],[x-1,y+1],0]);
-                        }                       
+                        }
                     } if(this.board[y][x] == 2) {
                         if (this.inBounds(y-1, x+1) && this.board[y-1][x+1]==0) {
                             actions.push([[x,y],[x+1,y-1],0]);
                         }
                         if (this.inBounds(y-1, x-1) && this.board[y-1][x-1]==0) {
                             actions.push([[x, y],[x-1,y-1],0]);
-                        }  
+                        }
                     }
                 }
             }
@@ -166,14 +166,14 @@ class checkersGame {
                         }
                         if (this.inBounds(y-1, x-1) && this.board[y-1][x-1]==0) {
                             actions.push([[x, y],[x-1,y-1],0]);
-                        }                       
+                        }
                     } if(this.board[y][x] == 4) {
                         if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]==0) {
                             actions.push([[x,y],[x+1,y+1],0]);
                         }
                         if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]==0) {
                             actions.push([[x, y],[x-1,y+1],0]);
-                        }  
+                        }
                     }
                 }
             }
@@ -384,7 +384,7 @@ class minimaxAgent {
             var legal_actions = checkersState.getLegalActions(agent);
             if (checkersState.isWin(agent) == true || checkersState.isLose(agent) == true || legal_actions.length == 0) {
                 return [null, checkersState.getScore()];
-            }    
+            }
             var next_states = [];
             for (action in legal_actions) {
                 next_states.push(checkersState.generateSuccessor(action, agent));
@@ -392,14 +392,14 @@ class minimaxAgent {
             var best_action = null;
             var best_score = null;
             if (agent == 0) { // player
-                for (i = 0; i < next_states.length; i++) { 
+                for (i = 0; i < next_states.length; i++) {
                     var next_state = next_states[i];
                     var next_score = null;
                     if (depth == max_depth) {
                         next_score = checkersState.getScore()
                     } else {
                         next_score = get_best_action(next_state, depth, max_depth, 1)[1];
-                    } 
+                    }
                     if (i == 0) {
                         best_action = 0;
                         best_score = next_score;
@@ -412,7 +412,7 @@ class minimaxAgent {
                 }
                 return (legal_actions[best_action], best_score)
             } else { //computer
-                for (i = 0; i < next_states.length; i++) { 
+                for (i = 0; i < next_states.length; i++) {
                     var next_state = next_states[i];
                     var next_score = get_best_action(next_state, depth + 1, max_depth, 1)[1];
                     if (i == 0) {
@@ -447,5 +447,3 @@ game.board[5][6] = 0
 console.log(game.board)
 actions = game.getLegalActions(1)
 console.log(actions)
-
-

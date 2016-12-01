@@ -26,34 +26,13 @@ var Board = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
-    var board = [new Array(8), new Array(8), new Array(8), new Array(8), new Array(8), new Array(8), new Array(8), new Array(8)];
-    for (var i = 0; i < 8; i++) {
-      for (var j = 0; j < 8; j++) {
-        board[i][j] = 0;
-      }
-    }
-    board[0][0] = 1;
-    board[0][2] = 1;
-    board[0][4] = 1;
-    board[0][6] = 1;
-    board[1][0] = 2;
-    board[1][2] = 1;
-    board[1][4] = 1;
-    board[1][6] = 1;
-
-    board[6][0] = 3;
-    board[6][2] = 3;
-    board[6][4] = 4;
-    board[6][6] = 3;
-    board[7][0] = 3;
-    board[7][2] = 3;
-    board[7][4] = 3;
-    board[7][6] = 3;
-
+    var game = new checkersGame();
+    console.log(game.getLegalActions(1));
     _this.state = {
-      board: board,
+      game: game,
+      board: game.board,
       selectedPiece: null,
-      actions: [[[6, 0], [7, 1], 1]],
+      actions: game.getLegalActions(1),
       possibleActions: {}
     };
 
@@ -104,8 +83,8 @@ var Board = function (_React$Component) {
       var result = {};
       for (var i in this.state.actions) {
         var action = this.state.actions[i];
-        if (this.getId(action[0][0], action[0][1]) == id) {
-          var endId = this.getId(action[action.length - 2][0], action[action.length - 2][1]);
+        if (this.getId(action[0][1], action[0][0]) == id) {
+          var endId = this.getId(action[action.length - 2][1], action[action.length - 2][0]);
           result[endId] = action;
         }
       }
