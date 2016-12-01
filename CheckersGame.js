@@ -37,7 +37,7 @@ class checkersGame {
         this.isLose = this.isLose.bind(this);
         this.getScore = this.getScore.bind(this);
 
-        //this.generateSuccessor = this.generateSuccessor.bind();
+        this.generateSuccessor = this.generateSuccessor.bind(this);
         this.getLegalActions = this.getLegalActions.bind(this);
         this.inBounds = this.inBounds.bind(this);
         this.recursiveEatSearch = this.recursiveEatSearch.bind(this);
@@ -90,37 +90,58 @@ class checkersGame {
     // action = [[(0,0), ... , (4,4)], 1]
     // If the second element of the array is 1, then the action involves eating pieces
     // If not, then the action does not involve eating pieces. 
-    /*
+    
     generateSuccessor(action, agent) {
         var state = new checkersGame();
         state.numRedPieces = this.numRedPieces;
         state.numBlackPieces = this.numBlackPieces;
-        state.board = this.board;
+        for(var x = 0; x < this.WIDTH; x++) {
+            for(var y = 0; y < this.HEIGHT; y++) {
+                state.board[y][x] = this.board[y][x]
+            }
+        }
 
-        var moves = action[0];
-        var firstMove = moves[0];
-        var lastMove = moves[moves.length - 1];
+        var firstMove = action[0];
+        var lastMove = action[action.length - 2];
+        var eating = action[action.length - 1];
 
-        if(action[1] == 0) {
-            state.board[lastMove[0]][lastMove[1]] = state.board[firstMove[0]][firstMove[1]];
-            state.board[firstMove[0]][firstMove[1]] = 0;
+        if(eating == 0) {
+            state.board[lastMove[1]][lastMove[0]] = state.board[firstMove[1]][firstMove[0]];
+            if(agent == 0 && lastMove[1] == 7) {
+                state.board[lastMove[1]][lastMove[0]]++;
+            } else if(agent == 1 && lastMove[1] == 0) {
+                state.board[lastMove[1]][lastMove[0]]++;
+            }
+            state.board[firstMove[1]][firstMove[0]] = 0;
         } else {
-            for (var i = 0; i < moves.length -1; i ++) {
-                var first = moves[i]
-                var second = moves[i+1]
-                state.board[(first[0]+second[0])/2][(first[1]+second[1])/2] = 0
+            var containsUpgrade = false;
+            for (var i = 0; i < action.length -2; i ++) {
+                var first = action[i]
+                var second = action[i+1]
+                state.board[(first[1]+second[1])/2][(first[0]+second[0])/2] = 0
+                if (agent == 0 && second[1] == 7) {
+                    containsUpgrade = true;
+                } else if (agent == 1 && second[1] == 0) {
+                    containsUpgrade = true;
+                }
             }
             state.board[lastMove[0]][lastMove[1]] = state.board[firstMove[0]][firstMove[1]];
             state.board[firstMove[0]][firstMove[1]] = 0;
             if (agent == 0 ){
                 state.numBlackPieces = state.numBlackPieces - moves.length + 1;
+                if (containsUpgrade) {
+                    state.board[lastMove[0]][lastMove[1]]++;
+                }
             } else {
                 state.numRedPieces = state.numRedPieces - moves.length + 1;
+                if (containsUpgrade) {
+                    state.board[lastMove[0]][lastMove[1]]++;
+                }
             }
         }
         return state;
     }
-    */
+    
     getLegalActions(agent) {
         var actions = []
         if (agent == 0) {
@@ -373,7 +394,7 @@ class checkersGame {
         }
     }
 }
-
+/*
 class minimaxAgent {
     constructor() {
         this.depth = 4;
@@ -435,8 +456,10 @@ class minimaxAgent {
 }
 
 minimaxAgent = new minimaxAgent();
+*/
 game = new checkersGame();
 
+/*
 game.board[3][2] = 3
 game.board[6][1] = 2
 game.board[6][5] = 0
@@ -444,8 +467,11 @@ game.board[5][2] = 1
 game.board[7][4] = 0
 game.board[6][5] = 3
 game.board[5][6] = 0
+*/
 console.log(game.board)
-actions = game.getLegalActions(1)
-console.log(actions)
+actions = game.getLegalActions(1);
+console.log(actions[0]);
+newGame = game.generateSuccessor(actions[0], 1);
+console.log(newGame.board)
 
 
