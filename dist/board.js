@@ -52,21 +52,61 @@ var Board = function (_React$Component) {
 
     _this.state = {
       board: board,
-      selectedPiece: null
+      selectedPiece: null,
+      actions: [[[6, 0], [7, 1], 1]],
+      possibleActions: []
     };
 
     _this.onGridClick = _this.onGridClick.bind(_this);
+    _this.getPossibleActions = _this.getPossibleActions.bind(_this);
     return _this;
   }
+
+  // action: [starting point, intermediate states, ending point, piece taken]
+
 
   _createClass(Board, [{
     key: "onGridClick",
     value: function onGridClick(e) {
-      if (this.state.selectedPiece != e.currentTarget.id) {
-        this.setState({ selectedPiece: e.currentTarget.id });
-      } else {
-        this.setState({ selectedPiece: null });
+      var id = e.currentTarget.id;
+      var value = this.state.board[parseInt(id[0])][parseInt(id[1])];
+      if (value == 3 || value == 4) {
+        if (this.state.selectedPiece != id) {
+          this.setState({
+            selectedPiece: id,
+            possibleActions: this.getPossibleActions(id)
+          });
+        } else {
+          this.setState({
+            selectedPiece: null,
+            possibleActions: []
+          });
+        }
+      } else if (this.state.possibleActions.indexOf(id) >= 0) {
+        this.setState({
+          selectedPiece: null,
+          possibleActions: []
+        });
+        console.log("Choose action: ", id);
+        console.log("computer's turn");
       }
+    }
+  }, {
+    key: "getId",
+    value: function getId(i, j) {
+      return i.toString() + j.toString();
+    }
+  }, {
+    key: "getPossibleActions",
+    value: function getPossibleActions(id) {
+      var result = [];
+      for (var i in this.state.actions) {
+        var action = this.state.actions[i];
+        if (this.getId(action[0][0], action[0][1]) == id) {
+          result.push(this.getId(action[action.length - 2][0], action[action.length - 2][1]));
+        }
+      }
+      return result;
     }
   }, {
     key: "render",
@@ -75,11 +115,12 @@ var Board = function (_React$Component) {
       for (var i = 0; i < 8; i++) {
         var row = new Array(8);
         for (var j = 0; j < 8; j++) {
-          var id = i.toString() + j.toString();
+          var id = this.getId(i, j);
           var gridClasses = classNames({
             "grid": true,
             "off-grid": (i - j) % 2 == 0,
-            "selected-grid": this.state.selectedPiece == id
+            "selected-grid": this.state.selectedPiece == id,
+            "possible-action": this.state.possibleActions.indexOf(id) >= 0
           });
           var piece = null;
           if (this.state.board[i][j] != 0) {

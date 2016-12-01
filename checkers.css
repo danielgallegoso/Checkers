@@ -40,5 +40,9 @@
 }
 
 .selected-grid {
-  border: 6px solid chartreuse;
+  border: 5px solid chartreuse;
+}
+
+.possible-action {
+  border: 5px solid aqua;
 }
