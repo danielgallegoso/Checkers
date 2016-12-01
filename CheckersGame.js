@@ -31,12 +31,15 @@ class checkersGame {
                 this.board[i][j] = 3;
             }
         }
+
+        //Binding
         this.isWin = this.isWin.bind(this);
         this.isLose = this.isLose.bind(this);
         this.getScore = this.getScore.bind(this);
-        this.generateSuccessor() = this.generateSuccessor.bind();
-        this.getLegalActions() = this.getLegalActions.bind();
-        this.inBounds() = this.inBounds.bind()
+        //this.generateSuccessor = this.generateSuccessor.bind();
+        this.getLegalActions = this.getLegalActions.bind(this);
+        this.inBounds = this.inBounds.bind(this);
+        this.recursiveEatSearch = this.recursiveEatSearch.bind(this);
     }
 
     isWin(agent) {
@@ -85,6 +88,7 @@ class checkersGame {
     // action = [[(0,0), ... , (4,4)], 1]
     // If the second element of the array is 1, then the action involves eating pieces
     // If not, then the action does not involve eating pieces. 
+    /*
     generateSuccessor(action, agent) {
         var state = new checkersGame();
         state.numRedPieces = this.numRedPieces;
@@ -114,24 +118,269 @@ class checkersGame {
         }
         return state;
     }
-
+    */
     getLegalActions(agent) {
+        var actions = []
         if (agent == 0) {
             for(var x = 0; x < this.WIDTH; x++) {
                 for(var y = 0; y < this.HEIGHT; y ++) {
-                    if(this.board[x][y] == 1) {
-                        if (inBounds(x+1, y-1) && this.board[x+1][y-1]) {
-                            
+                    if(this.board[y][x] == 1 || this.board[y][x] == 2) {
+                        var path = [[x,y]];
+                        var numActions = actions.length;
+                        this.recursiveEatSearch(x, y, this.board[y][x], actions, path);
+                        if (actions.length > numActions) {
+                            continue;
                         }
+
+                        if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]==0) {
+                            actions.push([[x,y],[x+1,y+1],0]);
+                        }
+                        if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]==0) {
+                            actions.push([[x, y],[x-1,y+1],0]);
+                        }                       
+                    } if(this.board[y][x] == 2) {
+                        if (this.inBounds(y-1, x+1) && this.board[y-1][x+1]==0) {
+                            actions.push([[x,y],[x+1,y-1],0]);
+                        }
+                        if (this.inBounds(y-1, x-1) && this.board[y-1][x-1]==0) {
+                            actions.push([[x, y],[x-1,y-1],0]);
+                        }  
                     }
                 }
+            }
+        } else if (agent == 1) {
+            for(var x = 0; x < this.WIDTH; x++) {
+                for(var y = 0; y < this.HEIGHT; y ++) {
+                    if(this.board[y][x] == 3 || this.board[y][x] == 4) {
+                        var path = [[x,y]];
+                        var numActions = actions.length;
+                        this.recursiveEatSearch(x, y, this.board[y][x], actions, path);
+                        if (actions.length > numActions) {
+                            continue;
+                        }
+
+                        if (this.inBounds(y-1, x+1) && this.board[y-1][x+1]==0) {
+                            actions.push([[x,y],[x+1,y-1],0]);
+                        }
+                        if (this.inBounds(y-1, x-1) && this.board[y-1][x-1]==0) {
+                            actions.push([[x, y],[x-1,y-1],0]);
+                        }                       
+                    } if(this.board[y][x] == 4) {
+                        if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]==0) {
+                            actions.push([[x,y],[x+1,y+1],0]);
+                        }
+                        if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]==0) {
+                            actions.push([[x, y],[x-1,y+1],0]);
+                        }  
+                    }
+                }
+            }
+        }
+        var canEat = false;
+        for (var i = 0; i < actions.length; i++) {
+            var action = actions[i];
+            if (action[action.length - 1] == 1) {
+                canEat = true;
+            }
+        }
+        if (canEat) {
+            for(var i = 0; i <actions.length; i++) {
+                var action = actions[i];
+                if (action[action.length - 1] == 0) {
+                    actions.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+        return actions;
+    }
+
+    recursiveEatSearch(x, y, piece, actions, path) {
+        if(piece == 1) {
+            var foundMove = false;
+            if (y+2 == 7) {
+                console.log('upgrade?')
+                piece = 2
+            }
+            if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]>2 && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
+                foundMove = true;
+                path.push([x+2, y+2]);
+                var oldValue = this.board[y+1][x+1];
+                this.board[y+1][x+1] = 0;
+                this.recursiveEatSearch(x+2, y+2, piece, actions, path);
+                this.board[y+1][x+1] = oldValue
+                path.pop();
+            }
+            if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]>2 && this.inBounds(y+2, x-2) && this.board[y+2][x-2]==0) {
+                foundMove = true;
+                path.push([x-2, y+2]);
+                var oldValue = this.board[y+1][x-1];
+                this.board[y+1][x-1] = 0;
+                this.recursiveEatSearch(x-2, y+2, piece, actions, path);
+                this.board[y+1][x-1] = 0;
+                path.pop();
+            }
+            if(!foundMove && path.length > 1) {
+                //console.log(path);
+
+                var pathCopy = [];
+                for (var i = 0; i < path.length; i++) {
+                    pathCopy.push(path[i])
+                }
+                pathCopy.push(1)
+                actions.push(pathCopy);
+
+                //console.log(actions);
+            }
+        } else if (piece == 2) {
+            var foundMove = false;
+            if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]>2 && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
+                foundMove = true;
+                path.push([x+2, y+2]);
+                var oldValue = this.board[y+1][x+1];
+                this.board[y+1][x+1] = 0;
+                this.recursiveEatSearch(x+2, y+2, piece, actions, path);
+                this.board[y+1][x+1] = oldValue;
+                path.pop();
+            }
+            if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]>2 && this.inBounds(y+2, x-2) && this.board[y+2][x-2]==0) {
+                foundMove = true;
+                path.push([x-2, y+2]);
+                var oldValue = this.board[y+1][x-1];
+                this.board[y+1][x-1] = 0;
+                this.recursiveEatSearch(x-2, y+2, piece, actions, path);
+                this.board[y+1][x-1] = oldValue;
+                path.pop();
+            }
+            if (this.inBounds(y-1, x+1) && this.board[y-1][x+1]>2 && this.inBounds(y-2, x+2) && this.board[y-2][x+2]==0) {
+                foundMove = true;
+                path.push([x+2, y-2]);
+                var oldValue = this.board[y-1][x+1];
+                this.board[y-1][x+1] = 0;
+                this.recursiveEatSearch(x+2, y-2, piece, actions, path);
+                this.board[y-1][x+1] = oldValue
+                path.pop();
+            }
+            if (this.inBounds(y-1, x-1) && this.board[y-1][x-1]>2 && this.inBounds(y-2, x-2) && this.board[y-2][x-2]==0) {
+                foundMove = true;
+                path.push([x-2, y-2]);
+                var oldValue = this.board[y-1][x-1];
+                this.board[y-1][x-1] = 0;
+                this.recursiveEatSearch(x-2, y-2, piece, actions, path);
+                this.board[y-1][x-1] = oldValue;
+                path.pop();
+            }
+            if(!foundMove && path.length > 1) {
+                //console.log(path);
+
+                var pathCopy = [];
+                for (var i = 0; i < path.length; i++) {
+                    pathCopy.push(path[i])
+                }
+                pathCopy.push(1)
+                actions.push(pathCopy);
+
+                //console.log(actions);
+            }
+        } else if(piece == 3) {
+            var foundMove = false;
+            if (y-2 == 0) {
+                console.log('upgrade?')
+                piece = 4
+            }
+            if (this.inBounds(y-1, x+1) && (this.board[y-1][x+1]==1 || this.board[y-1][x+1]==2)  && this.inBounds(y-2, x+2) && this.board[y-2][x+2]==0) {
+                foundMove = true;
+                path.push([x+2, y-2]);
+                var oldValue = this.board[y-1][x+1];
+                this.board[y-1][x+1] = 0;
+                this.recursiveEatSearch(x+2, y-2, piece, actions, path);
+                this.board[y-1][x+1] = oldValue
+                path.pop();
+            }
+            if (this.inBounds(y-1, x-1) && (this.board[y-1][x-1]==1 || this.board[y-1][x-1]==2) && this.inBounds(y-2, x-2) && this.board[y-2][x-2]==0) {
+                foundMove = true;
+                path.push([x-2, y-2]);
+                var oldValue = this.board[y-1][x-1];
+                this.board[y-1][x-1] = 0;
+                this.recursiveEatSearch(x-2, y-2, piece, actions, path);
+                this.board[y-1][x-1] = 0;
+                path.pop();
+            }
+            if(!foundMove && path.length > 1) {
+                //console.log(path);
+
+                var pathCopy = [];
+                for (var i = 0; i < path.length; i++) {
+                    pathCopy.push(path[i])
+                }
+                pathCopy.push(1)
+                actions.push(pathCopy);
+
+                //console.log(actions);
+            }
+        } else if (piece == 2) {
+            var foundMove = false;
+            if (this.inBounds(y+1, x+1) && (this.board[y+1][x+1] == 1 || this.board[y+1][x+1] == 2) && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
+                foundMove = true;
+                path.push([x+2, y+2]);
+                var oldValue = this.board[y+1][x+1];
+                this.board[y+1][x+1] = 0;
+                this.recursiveEatSearch(x+2, y+2, piece, actions, path);
+                this.board[y+1][x+1] = oldValue;
+                path.pop();
+            }
+            if (this.inBounds(y+1, x-1) && (this.board[y+1][x-1] == 2 || this.board[y+1][x-1] == 1) && this.inBounds(y+2, x-2) && this.board[y+2][x-2]==0) {
+                foundMove = true;
+                path.push([x-2, y+2]);
+                var oldValue = this.board[y+1][x-1];
+                this.board[y+1][x-1] = 0;
+                this.recursiveEatSearch(x-2, y+2, piece, actions, path);
+                this.board[y+1][x-1] = oldValue;
+                path.pop();
+            }
+            if (this.inBounds(y-1, x+1) && (this.board[y-1][x+1] == 1 || this.board[y-1][x+1] == 2) && this.inBounds(y-2, x+2) && this.board[y-2][x+2]==0) {
+                foundMove = true;
+                path.push([x+2, y-2]);
+                var oldValue = this.board[y-1][x+1];
+                this.board[y-1][x+1] = 0;
+                this.recursiveEatSearch(x+2, y-2, piece, actions, path);
+                this.board[y-1][x+1] = oldValue
+                path.pop();
+            }
+            if (this.inBounds(y-1, x-1) && (this.board[y-1][x-1] == 1 || this.board[y-1][x-1] == 2) && this.inBounds(y-2, x-2) && this.board[y-2][x-2]==0) {
+                foundMove = true;
+                path.push([x-2, y-2]);
+                var oldValue = this.board[y-1][x-1];
+                this.board[y-1][x-1] = 0;
+                this.recursiveEatSearch(x-2, y-2, piece, actions, path);
+                this.board[y-1][x-1] = oldValue;
+                path.pop();
+            }
+            if(!foundMove && path.length > 1) {
+                //console.log(path);
+
+                var pathCopy = [];
+                for (var i = 0; i < path.length; i++) {
+                    pathCopy.push(path[i])
+                }
+                pathCopy.push(1)
+                actions.push(pathCopy);
+
+                //console.log(actions);
             }
         }
     }
 }
 
 game = new checkersGame();
-game.numRedPieces = 2
-console.log(game.getScore());
-game.numRedPieces = 0
-console.log(game.getScore());
+game.board[3][2] = 3
+game.board[6][1] = 2
+game.board[6][5] = 0
+game.board[5][2] = 1
+game.board[7][4] = 0
+game.board[6][5] = 3
+game.board[5][6] = 0
+console.log(game.board)
+actions = game.getLegalActions(1)
+console.log(actions)
+
