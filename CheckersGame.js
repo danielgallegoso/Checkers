@@ -93,8 +93,10 @@ class checkersGame {
         var inputArray = input.split("~");
         console.log(inputArray);
         for (var i = 0; i < inputArray.length; i++) {
+            console.log(inputArray[i]);
             for (var j = 0; j < inputArray[i].length; j++) {
-                this.board[i][j] = inputArray[i][j];
+              console.log(i + " " + j);
+                this.board[i][j] = parseInt(inputArray[i][j]);
             }
         }
     }
@@ -441,11 +443,7 @@ class minimaxAgent {
             var best_score = null;
 
             if (agent == 0) { // player
-<<<<<<< HEAD
-                for (var i = 0; i < next_states.length; i++) { 
-=======
-                for (i = 0; i < next_states.length; i++) {
->>>>>>> 89c3805ee06077a2cc77900b86859c7944b03de0
+                for (var i = 0; i < next_states.length; i++) {
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
                         var next_score = null;
@@ -473,11 +471,7 @@ class minimaxAgent {
                 }
                 return [legal_actions[best_action], best_score];
             } else { //computer
-<<<<<<< HEAD
-                for (var i = 0; i < next_states.length; i++) { 
-=======
-                for (i = 0; i < next_states.length; i++) {
->>>>>>> 89c3805ee06077a2cc77900b86859c7944b03de0
+                for (var i = 0; i < next_states.length; i++) {
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
                         var next_score = get_best_action(next_state, depth + 1, max_depth, 0, alpha_beta)[1];
@@ -506,7 +500,6 @@ class minimaxAgent {
     return best_action[0];
     }
 }
-
 
 // Heuristics!!!!
 
@@ -552,7 +545,7 @@ function numSafePawns(state) {
                     numRedPawns++;
                 } else if (state.board[i][j] == 3) {
                     numBlackPawns++;
-                }    
+                }
             }
         }
     }
@@ -569,7 +562,7 @@ function numSafeKings(state) {
                     numRedKings++;
                 } else if (state.board[i][j] == 4) {
                     numBlackKings++;
-                }    
+                }
             }
         }
     }
@@ -588,18 +581,18 @@ function numMovablePawns (state) {
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
                     numRedPawns++;
-                }                       
+                }
             } else if (state.board[y][x] == 3) {
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     numBlackPawns++;
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     numBlackPawns++;
-                }                       
+                }
             }
         }
     }
-    return (numRedPawns - numBlackPawns);    
+    return (numRedPawns - numBlackPawns);
 }
 
 function numMovableKings (state) {
@@ -613,30 +606,30 @@ function numMovableKings (state) {
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
                     numRedKings++;
-                }      
+                }
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     numRedKings++;
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     numRedKings++;
-                }                                  
+                }
             } else if (state.board[y][x] == 3) {
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     numBlackKings++;
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     numBlackKings++;
-                }    
+                }
                 if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
                     numBlackKings++;
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
-                    numBlackKings++; 
-                }                  
+                    numBlackKings++;
+                }
             }
         }
     }
-    return (numRedKings - numBlackKings);    
+    return (numRedKings - numBlackKings);
 }
 
 
@@ -687,7 +680,7 @@ function numDefenders(state) {
             }
 
         }
-    }     
+    }
     return (RedDefenders - BlackDefenders)
 }
 
@@ -707,8 +700,8 @@ function numAttackers(state) {
                 }
             }
         }
-    }     
-    return (RedAttackers - BlackAttackers) 
+    }
+    return (RedAttackers - BlackAttackers)
 }
 
 function numCentralPawns(state) { //3,4,5,6
@@ -724,8 +717,8 @@ function numCentralPawns(state) { //3,4,5,6
                 }
             }
         }
-    }     
-    return (RedCentralPawns - BlackCentralPawns) 
+    }
+    return (RedCentralPawns - BlackCentralPawns)
 }
 
 function numCentralKingss(state) { //3,4,5,6
@@ -741,8 +734,8 @@ function numCentralKingss(state) { //3,4,5,6
                 }
             }
         }
-    }     
-    return (RedCentralKings - BlackCentralKings) 
+    }
+    return (RedCentralKings - BlackCentralKings)
 }
 function numPawnsMainDiagonal(state){
     RedPawnsMD = 0;
@@ -757,8 +750,8 @@ function numPawnsMainDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedPawnsMD - BlackPawnsMD) 
+    }
+    return (RedPawnsMD - BlackPawnsMD)
 }
 
 function numKingsMainDiagonal(state){
@@ -774,8 +767,8 @@ function numKingsMainDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedKingsMD - BlackKingsMD) 
+    }
+    return (RedKingsMD - BlackKingsMD)
 }
 
 function numPawnsDoubleDiagonal(state){
@@ -791,8 +784,8 @@ function numPawnsDoubleDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedPawnsMD - BlackPawnsMD) 
+    }
+    return (RedPawnsMD - BlackPawnsMD)
 }
 
 function numKingsDoubleDiagonal(state){
@@ -808,8 +801,8 @@ function numKingsDoubleDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedKingsMD - BlackKingsMD) 
+    }
+    return (RedKingsMD - BlackKingsMD)
 }
 
 function numHoles(state) {
@@ -821,22 +814,22 @@ function numHoles(state) {
                 numRedNeighbors = 0;
                 numBlackNeighbors = 0;
                 if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1]==1 || state.board[y+1][x+1]== 2) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1]== 3 || state.board[y+1][x+1]== 4) {
                     numBlackNeighbors++;
                 }
                 if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]==1 || state.board[y+1][x-1]== 2) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]== 3 || state.board[y+1][x-1]== 4) {
                     numBlackNeighbors++;
                 }
                 if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]==1 || state.board[y-1][x+1]== 2) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]== 3 || state.board[y-1][x+1]== 4) {
                     numBlackNeighbors++;
-                } 
+                }
                 if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]==1 || state.board[y-1][x-1]== 2) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]== 3 || state.board[y-1][x-1]== 4) {
                     numBlackNeighbors++;
                 }
@@ -844,23 +837,23 @@ function numHoles(state) {
                     RedHoles += 1;
                 } else if (numBlackNeighbors >= 3) {
                     BlackHoles += 1;
-                }      
+                }
             }
         }
     }
-    return (RedHoles - BlackHoles);    
+    return (RedHoles - BlackHoles);
 }
 
 }
 // 00 01 02
 // 10 11 12
-// 20 21 22 
+// 20 21 22
 
 
 
 minimaxAgent = new minimaxAgent();
 
-game = new checkersGame();
+//game = new checkersGame();
 
 /*
 game.board[3][2] = 3
@@ -871,16 +864,7 @@ game.board[7][4] = 0
 game.board[6][5] = 3
 game.board[5][6] = 0
 */
-tester = "00000000~\
-00001000~\
-00000000~\
-11111111~\
-11111111~\
-00000000~\
-00000000~\
-01010100";
-game.setBoard(tester);
-console.log(game.board);
+
 /*
 console.log(game.board)
 actions = game.getLegalActions(1);
