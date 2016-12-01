@@ -61,11 +61,11 @@ class checkersGame {
 
     isLose(agent) {
         if (agent  == 0) {
-            if (this.numRedPieces == 0) {
+            if (this.numRedPieces == 0 || this.getLegalActions(agent).length == 0) {
                 return true;
             }
         } else if (agent == 1) {
-            if(this.numBlackPieces == 0) {
+            if(this.numBlackPieces == 0 || this.getLegalActions(agent).length == 0) {
                 return true;
             }
         }
@@ -81,9 +81,9 @@ class checkersGame {
 
     getScore() {
         if (this.isWin(0)) {
-            return 1000;
+            return Infinity;
         } else if(this.isWin(1)) {
-            return -1000;
+            return (0 - Infinity);
         } else {
             return this.numRedPieces - this.numBlackPieces;
         }
@@ -425,21 +425,22 @@ class minimaxAgent {
 
     getAction(checkersState) {
         var get_best_action = function (checkersState, depth, max_depth, agent, alpha_beta) { //eval function in state
-            var legal_actions = checkersState.getLegalActions(agent);
-            shuffle(legal_actions);
-            if (checkersState.isWin(agent) == true || checkersState.isLose(agent) == true || legal_actions.length == 0) {
+            if (checkersState.isWin(agent) == true || checkersState.isLose(agent) == true) {
                 return [null, checkersState.getScore()];
-            }    
+            }
+            var legal_actions = checkersState.getLegalActions(agent);
+            shuffle(legal_actions);    
             var next_states = [];
             for (action in legal_actions) {
                 next_states.push(checkersState.generateSuccessor(action, agent));
             }
             var best_action = null;
             var best_score = null;
+
             if (agent == 0) { // player
                 for (i = 0; i < next_states.length; i++) { 
                     var next_state = next_states[i];
-                    if ((alpha_beta[1] - alpha_beta[0]) > 0 ) {
+                    if ((alpha_beta[1] - alpha_beta[0]) > 0) {
                         var next_score = null;
                         if (depth == max_depth) {
                             next_score = checkersState.getScore()
@@ -450,7 +451,7 @@ class minimaxAgent {
                             best_action = 0;
                             best_score = next_score;
                             if (best_score > alpha_beta[0]) {
-                                alpha_beta = [best_score, alpha_beta[1]]
+                                alpha_beta = [best_score, alpha_beta[1]];
                             }
                         } else {
                             if (next_score > best_score) {
@@ -463,12 +464,12 @@ class minimaxAgent {
                         }
                     }  
                 }
-                return [legal_actions[best_action], best_score]
+                return [legal_actions[best_action], best_score];
             } else { //computer
                 for (i = 0; i < next_states.length; i++) { 
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
-                        var next_score = get_best_action(next_state, depth + 1, max_depth, 1, alpha_beta)[1];
+                        var next_score = get_best_action(next_state, depth + 1, max_depth, 0, alpha_beta)[1];
                         if (i == 0) {
                             best_action = 0;
                             best_score = next_score;
@@ -486,11 +487,11 @@ class minimaxAgent {
                         }
                     }
                 }
-                return [legal_actions[best_action], best_score]
+                return [legal_actions[best_action], best_score];
             }
         } 
     var alpha_beta = [0 - Infinity, Infinity];
-    var best_action = get_best_action(checkersState, 0, self.depth, 0, alpha_beta); //state, agent, max_depth = 4, depth, alpha_beta
+    var best_action = get_best_action(checkersState, 0, self.depth, 0, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
     return best_action[0];
     }
 }
