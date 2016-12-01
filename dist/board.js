@@ -26,46 +26,33 @@ var Board = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
-    var board = [new Array(8), new Array(8), new Array(8), new Array(8), new Array(8), new Array(8), new Array(8), new Array(8)];
-    for (var i = 0; i < 8; i++) {
-      for (var j = 0; j < 8; j++) {
-        board[i][j] = 0;
-      }
-    }
-    board[0][0] = 1;
-    board[0][2] = 1;
-    board[0][4] = 1;
-    board[0][6] = 1;
-    board[1][0] = 2;
-    board[1][2] = 1;
-    board[1][4] = 1;
-    board[1][6] = 1;
-
-    board[6][0] = 3;
-    board[6][2] = 3;
-    board[6][4] = 4;
-    board[6][6] = 3;
-    board[7][0] = 3;
-    board[7][2] = 3;
-    board[7][4] = 3;
-    board[7][6] = 3;
-
+    var game = new checkersGame();
     _this.state = {
-      board: board,
+      game: game,
+      board: game.board,
       selectedPiece: null,
-      actions: [[[6, 0], [7, 1], 1]],
-      possibleActions: {}
+      actions: game.getLegalActions(1),
+      possibleActions: {},
+      isWin: null
     };
 
     _this.onGridClick = _this.onGridClick.bind(_this);
     _this.getPossibleActions = _this.getPossibleActions.bind(_this);
+    _this.computersTurn = _this.computersTurn.bind(_this);
     return _this;
   }
 
-  // action: [starting point, intermediate states, ending point, piece taken]
-
-
   _createClass(Board, [{
+    key: "computersTurn",
+    value: function computersTurn(game) {
+      console.log("computersTurn");
+      var action = game.getLegalActions(0)[0];
+      return game.generateSuccessor(action, 0);
+    }
+
+    // action: [starting point, intermediate states, ending point, piece taken]
+
+  }, {
     key: "onGridClick",
     value: function onGridClick(e) {
       var id = e.currentTarget.id;
@@ -85,12 +72,14 @@ var Board = function (_React$Component) {
       } else if (Object.keys(this.state.possibleActions).indexOf(id) >= 0) {
         var i = Object.keys(this.state.possibleActions).indexOf(id);
         var action = this.state.possibleActions[Object.keys(this.state.possibleActions)[i]];
+        var game = this.computersTurn(this.state.game.generateSuccessor(action, 1));
         this.setState({
+          game: game,
+          board: game.board,
+          actions: game.getLegalActions(1),
           selectedPiece: null,
           possibleActions: {}
         });
-        console.log("Choose action: ", action);
-        console.log("computer's turn");
       }
     }
   }, {
@@ -104,8 +93,8 @@ var Board = function (_React$Component) {
       var result = {};
       for (var i in this.state.actions) {
         var action = this.state.actions[i];
-        if (this.getId(action[0][0], action[0][1]) == id) {
-          var endId = this.getId(action[action.length - 2][0], action[action.length - 2][1]);
+        if (this.getId(action[0][1], action[0][0]) == id) {
+          var endId = this.getId(action[action.length - 2][1], action[action.length - 2][0]);
           result[endId] = action;
         }
       }
@@ -148,10 +137,26 @@ var Board = function (_React$Component) {
           row
         );
       }
+      var win;
+      if (this.state.isWin == true) {
+        win = React.createElement(
+          "p",
+          null,
+          "You won"
+        );
+      } else if (this.state.isWin == false) {
+        win = React.createElement(
+          "p",
+          null,
+          "You lost"
+        );
+      }
+
       return React.createElement(
         "div",
         null,
-        board
+        board,
+        win
       );
     }
   }]);

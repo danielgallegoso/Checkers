@@ -19,7 +19,7 @@ class checkersGame {
         for (var i = 0; i < 8; i++) {
             for (var j = 0; j < 8; j++) {
                 this.board[i][j] = 0;
-            } 
+            }
         }
         for (var i = 0; i < 3; i++){
             for(var j = (1 + i)%2; j < 8; j+=2) {
@@ -42,12 +42,14 @@ class checkersGame {
         this.inBounds = this.inBounds.bind(this);
         this.recursiveEatSearch = this.recursiveEatSearch.bind(this);
 
+        this.setBoard = this.setBoard.bind(this);
+
     }
 
     isWin(agent) {
         if (agent  == 0) {
             if (this.numBlackPieces == 0) {
-                return true; 
+                return true;
             }
         } else if (agent == 1) {
             if(this.numRedPieces == 0) {
@@ -55,7 +57,7 @@ class checkersGame {
             }
         }
         return false;
-    } 
+    }
 
     isLose(agent) {
         if (agent  == 0) {
@@ -87,10 +89,20 @@ class checkersGame {
         }
     }
 
+    setBoard(input) {
+        var inputArray = input.split("~");
+        console.log(inputArray);
+        for (var i = 0; i < inputArray.length; i++) {
+            for (var j = 0; j < inputArray[i].length; j++) {
+                this.board[i][j] = inputArray[i][j];
+            }
+        }
+    }
+
     // action = [[(0,0), ... , (4,4)], 1]
     // If the second element of the array is 1, then the action involves eating pieces
-    // If not, then the action does not involve eating pieces. 
-    
+    // If not, then the action does not involve eating pieces.
+
     generateSuccessor(action, agent) {
         var state = new checkersGame();
         state.numRedPieces = this.numRedPieces;
@@ -115,33 +127,36 @@ class checkersGame {
             state.board[firstMove[1]][firstMove[0]] = 0;
         } else {
             var containsUpgrade = false;
-            for (var i = 0; i < action.length -2; i ++) {
-                var first = action[i]
-                var second = action[i+1]
-                state.board[(first[1]+second[1])/2][(first[0]+second[0])/2] = 0
+            for (var i = 0; i < action.length - 2; i ++) {
+                var first = action[i];
+                var second = action[i+1];
+                // console.log('x:', (first[1] + second[1]) / 2, ' y:', (first[0] + second[0]) / 2);
+                state.board[(first[1] + second[1]) / 2][(first[0] + second[0]) / 2] = 0;
                 if (agent == 0 && second[1] == 7) {
                     containsUpgrade = true;
                 } else if (agent == 1 && second[1] == 0) {
                     containsUpgrade = true;
                 }
             }
-            state.board[lastMove[0]][lastMove[1]] = state.board[firstMove[0]][firstMove[1]];
-            state.board[firstMove[0]][firstMove[1]] = 0;
+            state.board[lastMove[1]][lastMove[0]] = state.board[firstMove[1]][firstMove[0]];
+            state.board[firstMove[1]][firstMove[0]] = 0;
+
             if (agent == 0 ){
-                state.numBlackPieces = state.numBlackPieces - moves.length + 1;
+                state.numBlackPieces = state.numBlackPieces - action.length + 2;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]]++;
+                    state.board[lastMove[1]][lastMove[0]]++;
                 }
             } else {
-                state.numRedPieces = state.numRedPieces - moves.length + 1;
+                state.numRedPieces = state.numRedPieces - action.length + 2;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]]++;
+                    state.board[lastMove[1]][lastMove[0]]++;
                 }
             }
         }
+
         return state;
     }
-    
+
     getLegalActions(agent) {
         var actions = []
         if (agent == 0) {
@@ -160,14 +175,14 @@ class checkersGame {
                         }
                         if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]==0) {
                             actions.push([[x, y],[x-1,y+1],0]);
-                        }                       
+                        }
                     } if(this.board[y][x] == 2) {
                         if (this.inBounds(y-1, x+1) && this.board[y-1][x+1]==0) {
                             actions.push([[x,y],[x+1,y-1],0]);
                         }
                         if (this.inBounds(y-1, x-1) && this.board[y-1][x-1]==0) {
                             actions.push([[x, y],[x-1,y-1],0]);
-                        }  
+                        }
                     }
                 }
             }
@@ -187,14 +202,14 @@ class checkersGame {
                         }
                         if (this.inBounds(y-1, x-1) && this.board[y-1][x-1]==0) {
                             actions.push([[x, y],[x-1,y-1],0]);
-                        }                       
+                        }
                     } if(this.board[y][x] == 4) {
                         if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]==0) {
                             actions.push([[x,y],[x+1,y+1],0]);
                         }
                         if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]==0) {
                             actions.push([[x, y],[x-1,y+1],0]);
-                        }  
+                        }
                     }
                 }
             }
@@ -222,8 +237,8 @@ class checkersGame {
         if(piece == 1) {
             var foundMove = false;
             if (y+2 == 7) {
-                console.log('upgrade?')
-                piece = 2
+                console.log('upgrade?');
+                piece = 2;
             }
             if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]>2 && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
                 foundMove = true;
@@ -326,7 +341,7 @@ class checkersGame {
                 var oldValue = this.board[y-1][x-1];
                 this.board[y-1][x-1] = 0;
                 this.recursiveEatSearch(x-2, y-2, piece, actions, path);
-                this.board[y-1][x-1] = 0;
+                this.board[y-1][x-1] = oldValue;
                 path.pop();
             }
             if(!foundMove && path.length > 1) {
@@ -341,7 +356,7 @@ class checkersGame {
 
                 //console.log(actions);
             }
-        } else if (piece == 2) {
+        } else if (piece == 4) {
             var foundMove = false;
             if (this.inBounds(y+1, x+1) && (this.board[y+1][x+1] == 1 || this.board[y+1][x+1] == 2) && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
                 foundMove = true;
@@ -406,7 +421,7 @@ function shuffle(a) {
     }
 }
 
-class minimaxAgent { 
+class minimaxAgent {
     constructor() {
         this.depth = 4;
     }
@@ -417,7 +432,7 @@ class minimaxAgent {
                 return [null, checkersState.getScore()];
             }
             var legal_actions = checkersState.getLegalActions(agent);
-            shuffle(legal_actions);    
+            shuffle(legal_actions);
             var next_states = [];
             for (action in legal_actions) {
                 next_states.push(checkersState.generateSuccessor(action, agent));
@@ -426,7 +441,11 @@ class minimaxAgent {
             var best_score = null;
 
             if (agent == 0) { // player
+<<<<<<< HEAD
                 for (var i = 0; i < next_states.length; i++) { 
+=======
+                for (i = 0; i < next_states.length; i++) {
+>>>>>>> 89c3805ee06077a2cc77900b86859c7944b03de0
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
                         var next_score = null;
@@ -434,7 +453,7 @@ class minimaxAgent {
                             next_score = checkersState.getScore()
                         } else {
                             next_score = get_best_action(next_state, depth, max_depth, 1, alpha_beta)[1];
-                        } 
+                        }
                         if (i == 0) {
                             best_action = 0;
                             best_score = next_score;
@@ -450,11 +469,15 @@ class minimaxAgent {
                                 }
                             }
                         }
-                    }  
+                    }
                 }
                 return [legal_actions[best_action], best_score];
             } else { //computer
+<<<<<<< HEAD
                 for (var i = 0; i < next_states.length; i++) { 
+=======
+                for (i = 0; i < next_states.length; i++) {
+>>>>>>> 89c3805ee06077a2cc77900b86859c7944b03de0
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
                         var next_score = get_best_action(next_state, depth + 1, max_depth, 0, alpha_beta)[1];
@@ -477,7 +500,7 @@ class minimaxAgent {
                 }
                 return [legal_actions[best_action], best_score];
             }
-        } 
+        }
     var alpha_beta = [0 - Infinity, Infinity];
     var best_action = get_best_action(checkersState, 0, self.depth, 0, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
     return best_action[0];
@@ -849,10 +872,21 @@ game.board[7][4] = 0
 game.board[6][5] = 3
 game.board[5][6] = 0
 */
+tester = "00000000~\
+00001000~\
+00000000~\
+11111111~\
+11111111~\
+00000000~\
+00000000~\
+01010100";
+game.setBoard(tester);
+console.log(game.board);
+/*
 console.log(game.board)
 actions = game.getLegalActions(1);
-console.log(actions[0]);
-newGame = game.generateSuccessor(actions[0], 1);
-console.log(newGame.board)
-
-
+console.log(actions);
+newGame = game.generateSuccessor(actions[6], 1);
+console.log(newGame.getLegalActions(1));
+console.log(newGame.board);
+*/
