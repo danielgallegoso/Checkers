@@ -864,20 +864,7 @@ game.board[7][4] = 0
 game.board[6][5] = 3
 game.board[5][6] = 0
 */
-<<<<<<< HEAD
-tester = "00000000~\
-10000000~\
-00000000~\
-00010000~\
-00000000~\
-00010000~\
-00003000~\
-00000000";
-game.setBoard(tester);
-console.log(game.board);
-=======
 
->>>>>>> 87a5f4b3521180a5fe601d62c47b5ce0b8dcaee3
 /*
 console.log(game.board)
 actions = game.getLegalActions(1);
