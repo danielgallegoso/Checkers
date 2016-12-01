@@ -42,6 +42,8 @@ class checkersGame {
         this.inBounds = this.inBounds.bind(this);
         this.recursiveEatSearch = this.recursiveEatSearch.bind(this);
 
+        this.setBoard = this.setBoard.bind(this);
+
     }
 
     isWin(agent) {
@@ -84,6 +86,16 @@ class checkersGame {
             return -1000;
         } else {
             return this.numRedPieces - this.numBlackPieces;
+        }
+    }
+
+    setBoard(input) {
+        var inputArray = input.split("~");
+        console.log(inputArray);
+        for (var i = 0; i < inputArray.length; i++) {
+            for (var j = 0; j < inputArray[i].length; j++) {
+                this.board[i][j] = inputArray[i][j];
+            }
         }
     }
 
@@ -496,10 +508,23 @@ game.board[7][4] = 0
 game.board[6][5] = 3
 game.board[5][6] = 0
 */
+tester = "00000000~\
+00001000~\
+00000000~\
+11111111~\
+11111111~\
+00000000~\
+00000000~\
+01010100";
+game.setBoard(tester);
+console.log(game.board);
+/*
 console.log(game.board)
 actions = game.getLegalActions(1);
-console.log(actions[0]);
-newGame = game.generateSuccessor(actions[0], 1);
-console.log(newGame.board)
+console.log(actions);
+newGame = game.generateSuccessor(actions[6], 1);
+console.log(newGame.getLegalActions(1));
+console.log(newGame.board);
+*/
 
 
