@@ -514,8 +514,8 @@ class minimaxAgent {
 function numberOfPawns(state) {
     var numRedPawns= 0;
     var numBlackPawns = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j , 8; j++) {
+    for (i = 0; i < state.WIDTH; i++) {
+        for (j = 0; j < state,WIDTH; j++) {
             if (state.board[i][j] == 1) {
                 numRedKings++;
             } else if (state.board[i][j] == 3) {
@@ -529,8 +529,8 @@ function numberOfPawns(state) {
 function numberOfKings(state) {
     var numRedKings = 0;
     var numBlackKings = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j , 8; j++) {
+    for (i = 0; i < state.WIDTH; i++) {
+        for (j = 0; j < state,WIDTH; j++) {
             if (state.board[i][j] == 2) {
                 numRedKings++;
             } else if (state.board[i][j] == 4) {
@@ -545,8 +545,8 @@ function numberOfKings(state) {
 function numSafePawns(state) {
     var numRedPawns = 0;
     var numBlackPawns = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j , 8; j++) {
+    for (i = 0; i < state.WIDTH; i++) {
+        for (j = 0; j < state,WIDTH; j++) {
             if (i == 0 || i == 7 || j == 0 || j == 7) {
                 if (state.board[i][j] == 1) {
                     numRedPawns++;
@@ -562,8 +562,8 @@ function numSafePawns(state) {
 function numSafeKings(state) {
     var numRedKings = 0;
     var numBlackKings = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j , 8; j++) {
+    for (i = 0; i < state.WIDTH; i++) {
+        for (j = 0; j < state,WIDTH; j++) {
             if (i == 0 || i == 7 || j == 0 || j == 7) {
                 if (state.board[i][j] == 2) {
                     numRedKings++;
@@ -641,16 +641,15 @@ function numMovableKings (state) {
 
 
 
-
 function distanceToPromotion(state) {
     var RedPawnDistance = 0;
     var BlackPawnDistance = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 1) {
-                RedPawnDistance = RedPawnDistance + y;
+                RedPawnDistance = RedPawnDistance + (this.HEIGHT - 1 - y);
             if (state.board[y][x] == 3) {
-                BlackPawnDistance = BlackPawnDistance + (this.HEIGHT - 1 - y)
+                BlackPawnDistance = BlackPawnDistance + y
             }
         }
     }
@@ -662,10 +661,10 @@ function promotionAvailability(state) {
     BlackAvailability = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         if (state.board[0][x] == 0) {
-            RedAvailability++;
+            BlackAvailability++;
         }
         if (state.board[state.HEIGHT - 1][x] == 0) {
-            BlackAvailability++;
+            RedAvailability++;
         }
     }
     return (RedAvailability - BlackAvailability);
@@ -678,12 +677,12 @@ function numDefenders(state) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (y == state.HEIGHT || y == (state.HEIGHT - 1)) {
                 if (state.board[y][x] == 1 || state.board[y][x] == 2) {
-                    RedDefenders++;
+                    BlackDefenders++;
                 }
             }
             if (y == 0 || y == 1) {
                 if (state.board[y][x] == 3 || state.board[y][x] == 4) {
-                    BlackDefenders++;
+                    RedDefenders++;
                 }
             }
 
@@ -699,12 +698,12 @@ function numAttackers(state) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (y == 0 || y == 1 || y == 2) {
                 if (state.board[y][x] == 1 || state.board[y][x] == 2) {
-                    RedAttackers++;
+                    BlackAttackers++;
                 }
             }
             if (y == state.HEIGHT || y == (state.HEIGHT - 1) || y == (state.HEIGHT - 2)) {
                 if (state.board[y][x] == 3 || state.board[y][x] == 4) {
-                    BlackAttackers++;
+                    RedAttackers++;
                 }
             }
         }
