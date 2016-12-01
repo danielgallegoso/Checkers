@@ -1,3 +1,3 @@
-"use strict";
+'use strict';
 
-ReactDOM.render(React.createElement(HelloMessage, { name: "John" }), document.getElementById('root'));
+ReactDOM.render(React.createElement(Board, null), document.getElementById('root'));

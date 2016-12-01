@@ -1,4 +1,4 @@
 ReactDOM.render(
-  <HelloMessage name="John" />,
+  <Board/>,
   document.getElementById('root')
 );
