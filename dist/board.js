@@ -27,17 +27,16 @@ var Board = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
     var game = new checkersGame();
-    //     var tester =
-    //     "00000000~\
-    // 00100000~\
-    // 03000000~\
-    // 00001000~\
-    // 00000000~\
-    // 00000000~\
-    // 00000000~\
-    // 00000000";
-    //
-    //     game.setBoard(tester);
+    var tester = "00000000~\
+00100000~\
+03000000~\
+00000000~\
+00000000~\
+00000000~\
+00000000~\
+00000000";
+
+    game.setBoard(tester);
     console.log(game.board);
     _this.state = {
       game: game,
@@ -67,9 +66,14 @@ var Board = function (_React$Component) {
     value: function checkIsWin(game) {
       if (game.isWin(1) || game.isLose(1)) {
         this.setState({
+          board: game.board,
+          selectedPiece: null,
+          possibleActions: {},
           isWin: game.isWin(1)
         });
+        return true;
       }
+      return false;
     }
 
     // action: [starting point, intermediate states, ending point, piece taken]
@@ -77,7 +81,8 @@ var Board = function (_React$Component) {
   }, {
     key: "onGridClick",
     value: function onGridClick(e) {
-      if (this.state.isWin == null) {
+      console.log("Click");
+      if (this.state.isWin != null) {
         return;
       }
       var id = e.currentTarget.id;
@@ -98,9 +103,9 @@ var Board = function (_React$Component) {
         var i = Object.keys(this.state.possibleActions).indexOf(id);
         var action = this.state.possibleActions[Object.keys(this.state.possibleActions)[i]];
         var tempGame = this.state.game.generateSuccessor(action, 1);
-        this.checkIsWin(tempGame);
+        if (this.checkIsWin(tempGame)) return;
         var game = this.computersTurn(tempGame);
-        this.checkIsWin(tempGame);
+        if (this.checkIsWin(tempGame)) return;
         this.setState({
           game: game,
           board: game.board,
