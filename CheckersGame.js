@@ -91,11 +91,11 @@ class checkersGame {
 
     setBoard(input) {
         var inputArray = input.split("~");
-        console.log(inputArray);
+        //console.log(inputArray);
         for (var i = 0; i < inputArray.length; i++) {
-            console.log(inputArray[i]);
+            //console.log(inputArray[i]);
             for (var j = 0; j < inputArray[i].length; j++) {
-              console.log(i + " " + j);
+              //console.log(i + " " + j);
                 this.board[i][j] = parseInt(inputArray[i][j]);
             }
         }
@@ -146,12 +146,12 @@ class checkersGame {
             if (agent == 0 ){
                 state.numBlackPieces = state.numBlackPieces - action.length + 2;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]] = 2;
+                    state.board[lastMove[1]][lastMove[0]] = 2;
                 }
             } else {
                 state.numRedPieces = state.numRedPieces - action.length + 2;
                 if (containsUpgrade) {
-                    state.board[lastMove[0]][lastMove[1]] = 4;
+                    state.board[lastMove[1]][lastMove[0]] = 4;
                 }
             }
         }
@@ -239,7 +239,7 @@ class checkersGame {
         if(piece == 1) {
             var foundMove = false;
             if (y+2 == 7) {
-                console.log('upgrade?');
+                //console.log('upgrade?');
                 piece = 2;
             }
             if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]>2 && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
@@ -325,7 +325,7 @@ class checkersGame {
         } else if(piece == 3) {
             var foundMove = false;
             if (y-2 == 0) {
-                console.log('upgrade?')
+                //console.log('upgrade?')
                 piece = 4
             }
             if (this.inBounds(y-1, x+1) && (this.board[y-1][x+1]==1 || this.board[y-1][x+1]==2)  && this.inBounds(y-2, x+2) && this.board[y-2][x+2]==0) {
@@ -411,3 +411,21 @@ class checkersGame {
         }
     }
 }
+
+var game = new checkersGame();
+var tester =
+"00000000~\
+00100000~\
+03000000~\
+00000000~\
+00000000~\
+00000000~\
+00000000~\
+00000000";
+game.setBoard(tester);
+console.log(game.board);
+actions = game.getLegalActions(1);
+console.log(actions)
+game = game.generateSuccessor(actions[0],1);
+console.log(game.board)
+
