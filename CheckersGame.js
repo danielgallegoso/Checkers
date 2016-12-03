@@ -48,11 +48,11 @@ class checkersGame {
 
     isWin(agent) {
         if (agent  == 0) {
-            if (this.numBlackPieces == 0) {
+            if (this.numBlackPieces == 0 || this.getLegalActions(1).length == 0) {
                 return true;
             }
         } else if (agent == 1) {
-            if(this.numRedPieces == 0) {
+            if(this.numRedPieces == 0 || this.getLegalActions(0).length == 0) {
                 return true;
             }
         }
