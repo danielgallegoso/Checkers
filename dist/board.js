@@ -51,6 +51,7 @@ var Board = function (_React$Component) {
     _this.onGridClick = _this.onGridClick.bind(_this);
     _this.getPossibleActions = _this.getPossibleActions.bind(_this);
     _this.computersTurn = _this.computersTurn.bind(_this);
+    _this.checkIsWin = _this.checkIsWin.bind(_this);
     return _this;
   }
 
@@ -61,12 +62,24 @@ var Board = function (_React$Component) {
       var action = game.getLegalActions(0)[0];
       return game.generateSuccessor(action, 0);
     }
+  }, {
+    key: "checkIsWin",
+    value: function checkIsWin(game) {
+      if (game.isWin(1) || game.isLose(1)) {
+        this.setState({
+          isWin: game.isWin(1)
+        });
+      }
+    }
 
     // action: [starting point, intermediate states, ending point, piece taken]
 
   }, {
     key: "onGridClick",
     value: function onGridClick(e) {
+      if (this.state.isWin == null) {
+        return;
+      }
       var id = e.currentTarget.id;
       var value = this.state.board[parseInt(id[0])][parseInt(id[1])];
       if (value == 3 || value == 4) {
@@ -84,7 +97,10 @@ var Board = function (_React$Component) {
       } else if (Object.keys(this.state.possibleActions).indexOf(id) >= 0) {
         var i = Object.keys(this.state.possibleActions).indexOf(id);
         var action = this.state.possibleActions[Object.keys(this.state.possibleActions)[i]];
-        var game = this.computersTurn(this.state.game.generateSuccessor(action, 1));
+        var tempGame = this.state.game.generateSuccessor(action, 1);
+        this.checkIsWin(tempGame);
+        var game = this.computersTurn(tempGame);
+        this.checkIsWin(tempGame);
         this.setState({
           game: game,
           board: game.board,

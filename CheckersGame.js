@@ -851,7 +851,7 @@ function numHoles(state) {
 
 
 
-minimaxAgent = new minimaxAgent();
+// minimaxAgent = new minimaxAgent();
 
 //game = new checkersGame();
 
