@@ -16,11 +16,11 @@ function numberOfPawns(state) {
             } else if (state.board[i][j] == 3) {
                 numBlackKings++;
             }
-
         }
     }
     return (numRedPawns - numBlackPawns);
 }
+
 function numberOfKings(state) {
     var numRedKings = 0;
     var numBlackKings = 0;
@@ -143,6 +143,7 @@ function distanceToPromotion(state) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 1) {
                 RedPawnDistance = RedPawnDistance + (state.HEIGHT - 1 - y);
+            }
             if (state.board[y][x] == 3) {
                 BlackPawnDistance = BlackPawnDistance + y
             }
@@ -152,8 +153,8 @@ function distanceToPromotion(state) {
 }
 
 function promotionAvailability(state) {
-    RedAvailability = 0;
-    BlackAvailability = 0;
+    var RedAvailability = 0;
+    var BlackAvailability = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         if (state.board[0][x] == 0) {
             BlackAvailability++;
@@ -166,8 +167,8 @@ function promotionAvailability(state) {
 }
 
 function numDefenders(state) {
-    RedDefenders = 0;
-    BlackDefenders = 0;
+    var RedDefenders = 0;
+    var BlackDefenders = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (y == state.HEIGHT || y == (state.HEIGHT - 1)) {
@@ -187,8 +188,8 @@ function numDefenders(state) {
 }
 
 function numAttackers(state) {
-    RedAttackers = 0;
-    BlackAttackers = 0;
+    var RedAttackers = 0;
+    var BlackAttackers = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (y == 0 || y == 1 || y == 2) {
@@ -207,8 +208,8 @@ function numAttackers(state) {
 }
 
 function numCentralPawns(state) { //3,4,5,6
-    RedCentralPawns = 0;
-    BlackCentralPawns = 0;
+    var RedCentralPawns = 0;
+    var BlackCentralPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (x >= 3 && x <= 6 && y >= 3 && y <= 6) {
@@ -224,8 +225,8 @@ function numCentralPawns(state) { //3,4,5,6
 }
 
 function numCentralKingss(state) { //3,4,5,6
-    RedCentralPawns = 0;
-    BlackCentralPawns = 0;
+    var RedCentralPawns = 0;
+    var BlackCentralPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (x >= 3 && x <= 6 && y >= 3 && y <= 6) {
@@ -240,8 +241,8 @@ function numCentralKingss(state) { //3,4,5,6
     return (RedCentralKings - BlackCentralKings) 
 }
 function numPawnsMainDiagonal(state){
-    RedPawnsMD = 0;
-    BlackPawnsMD = 0;
+    var RedPawnsMD = 0;
+    var BlackPawnsMD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (x + y == (state.WIDTH - 1)) {
@@ -257,8 +258,8 @@ function numPawnsMainDiagonal(state){
 }
 
 function numKingsMainDiagonal(state){
-    RedKingsMD = 0;
-    BlackKingsMD = 0;
+    var RedKingsMD = 0;
+    var BlackKingsMD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (x + y == (state.WIDTH - 1)) {
@@ -274,8 +275,8 @@ function numKingsMainDiagonal(state){
 }
 
 function numPawnsDoubleDiagonal(state){
-    RedPawnsDD = 0;
-    BlackPawnsDD = 0;
+    var RedPawnsDD = 0;
+    var BlackPawnsDD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if ((x - y) == 1 || (y - x) == 1) {
@@ -291,8 +292,8 @@ function numPawnsDoubleDiagonal(state){
 }
 
 function numKingsDoubleDiagonal(state){
-    RedKingsDD = 0;
-    BlackKingsDD = 0;
+    var RedKingsDD = 0;
+    var BlackKingsDD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if ((x - y) == 1 || (y - x) == 1) {
@@ -313,26 +314,26 @@ function numHoles(state) {
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 0) {
-                numRedNeighbors = 0;
-                numBlackNeighbors = 0;
-                if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1]==1 || state.board[y+1][x+1]== 2) {
+                var numRedNeighbors = 0;
+                var numBlackNeighbors = 0;
+                if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1] ==1 || state.board[y+1][x+1] == 2)) {
                     numRedNeighbors++; 
-                } else if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1]== 3 || state.board[y+1][x+1]== 4) {
+                } else if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1]== 3 || state.board[y+1][x+1]== 4)) {
                     numBlackNeighbors++;
                 }
-                if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]==1 || state.board[y+1][x-1]== 2) {
+                if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]==1 || state.board[y+1][x-1]== 2)) {
                     numRedNeighbors++; 
-                } else if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]== 3 || state.board[y+1][x-1]== 4) {
+                } else if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]== 3 || state.board[y+1][x-1]== 4)) {
                     numBlackNeighbors++;
                 }
-                if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]==1 || state.board[y-1][x+1]== 2) {
+                if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]==1 || state.board[y-1][x+1]== 2)) {
                     numRedNeighbors++; 
-                } else if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]== 3 || state.board[y-1][x+1]== 4) {
+                } else if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]== 3 || state.board[y-1][x+1]== 4)) {
                     numBlackNeighbors++;
                 } 
-                if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]==1 || state.board[y-1][x-1]== 2) {
+                if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]==1 || state.board[y-1][x-1]== 2)) {
                     numRedNeighbors++; 
-                } else if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]== 3 || state.board[y-1][x-1]== 4) {
+                } else if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]== 3 || state.board[y-1][x-1]== 4)) {
                     numBlackNeighbors++;
                 }
                 if (numRedNeighbors >= 3) {
@@ -345,3 +346,4 @@ function numHoles(state) {
     }
     return (RedHoles - BlackHoles);    
 }
+
