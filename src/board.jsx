@@ -12,14 +12,15 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     var game = new checkersGame();
-    var agent = new SmallWeightedMinimaxAgent([ 2.04519378087059,
-  7.898920885361369,
-  -8.896758901145976,
-  7.537251410956124,
-  0.03080404842152129,
-  6.149634359806917,
-  -2.039683344044635,
-  -10.656070047537842 ], 0, 4);
+    var agent = new HandpickedMinimaxAgent(0);
+  //   var agent = new SmallWeightedMinimaxAgent([ 2.04519378087059,
+  // 7.898920885361369,
+  // -8.896758901145976,
+  // 7.537251410956124,
+  // 0.03080404842152129,
+  // 6.149634359806917,
+  // -2.039683344044635,
+  // -10.656070047537842 ], 0, 4);
     // var agent = new RandomAgent();
     // var agent = new NaiveMinimaxAgent();
 //     var tester =

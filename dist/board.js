@@ -28,7 +28,14 @@ var Board = function (_React$Component) {
 
     var game = new checkersGame();
     var agent = new HandpickedMinimaxAgent(0);
-    // var agent = new SmallWeightedMinimaxAgent([2.04519378087059, 7.898920885361369, -8.896758901145976, 7.537251410956124, 0.03080404842152129, 6.149634359806917, -2.039683344044635, -10.656070047537842], 0, 4);
+    //   var agent = new SmallWeightedMinimaxAgent([ 2.04519378087059,
+    // 7.898920885361369,
+    // -8.896758901145976,
+    // 7.537251410956124,
+    // 0.03080404842152129,
+    // 6.149634359806917,
+    // -2.039683344044635,
+    // -10.656070047537842 ], 0, 4);
     // var agent = new RandomAgent();
     // var agent = new NaiveMinimaxAgent();
     //     var tester =
@@ -119,17 +126,6 @@ var Board = function (_React$Component) {
         var tempGame = this.state.game.generateSuccessor(action, 1);
         if (this.checkIsWin(tempGame, 0)) return;
         var game = this.computersTurn(tempGame);
-        // var w = [2.04519378087059, 7.898920885361369, -8.896758901145976, 7.537251410956124, 0.03080404842152129, 6.149634359806917, -2.039683344044635, -10.656070047537842];
-        // console.log(
-        //   numberOfPawns(game, 0)*w[0] ,
-        //    numberOfKings(game, 0)*w[1] ,
-        //    distanceToPromotion(game, 0)*w[2] ,
-        //    numDefenders(game, 0) *w[3],
-        //    numAttackers(game, 0) *w[4],
-        //    numCentralPawns(game, 0)*w[5],
-        //    numCentralKings(game, 0) *w[6],
-        //    numHoles(game, 0)*w[7]
-        // )
         if (this.checkIsWin(game, 1)) return;
         // console.log('game.getLegalActions(1)')
         this.setState({
