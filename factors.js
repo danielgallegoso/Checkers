@@ -320,7 +320,7 @@ function numLonerPawns (state) {
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
                     redLonerCounter++;
-                }      
+                }
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     redLonerCounter++;
                 }
@@ -329,7 +329,7 @@ function numLonerPawns (state) {
                 }
                 if (redLonerCounter == 4) {
                     RedLonerPawns++;
-                }                                  
+                }
             } else if (state.board[y][x] == 3) {
                 var blackLonerCounter = 0
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
@@ -337,23 +337,23 @@ function numLonerPawns (state) {
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     blackLonerCounter++;
-                }    
+                }
                 if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
                     blackLonerCounter++;
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
-                    blackLonerCounter++; 
-                }   
+                    blackLonerCounter++;
+                }
                 if (blackLonerCounter == 4) {
                     BlackLonerPawns++;
-                }                   
+                }
             }
         }
     }
-    return (RedLonerPawns - BlackLonerPawns);    
+    return (RedLonerPawns - BlackLonerPawns);
 }
 
-function numLonerPawns (state) {
+function numLonerKings (state) {
     var RedLonerKings = 0;
     var BlackLonerKings = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -365,7 +365,7 @@ function numLonerPawns (state) {
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
                     redLonerCounter++;
-                }      
+                }
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     redLonerCounter++;
                 }
@@ -374,7 +374,7 @@ function numLonerPawns (state) {
                 }
                 if (redLonerCounter == 4) {
                     RedLonerKings++;
-                }                                  
+                }
             } else if (state.board[y][x] == 4) {
                 var blackLonerCounter = 0
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
@@ -382,21 +382,21 @@ function numLonerPawns (state) {
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     blackLonerCounter++;
-                }    
+                }
                 if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
                     blackLonerCounter++;
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
-                    blackLonerCounter++; 
-                }   
+                    blackLonerCounter++;
+                }
                 if (blackLonerCounter == 4) {
                     BlackLonerKings++;
-                }                   
+                }
             }
         }
     }
-    return (RedLonerKings - BlackLonerKings); 
-}    
+    return (RedLonerKings - BlackLonerKings);
+}
 
 
 function numLonerHoles(state) {
