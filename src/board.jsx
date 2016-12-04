@@ -12,7 +12,8 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     var game = new checkersGame();
-    var minimax = new minimaxAgent();
+    // var agent = new RandomAgent();
+    var agent = new NaiveMinimaxAgent();
 //     var tester =
 // "00000000~\
 // 00000000~\
@@ -24,11 +25,11 @@ class Board extends React.Component {
 // 00000000";
 //
 //     game.setBoard(tester);
-    // console.log(game.board);
+    // console.log(game.board)
     // console.log('game.getLegalActions(1)')
     this.state = {
       game: game,
-      minimax: minimax,
+      agent: agent,
       board: game.board,
       selectedPiece: null,
       actions: game.getLegalActions(1),
@@ -45,9 +46,9 @@ class Board extends React.Component {
   computersTurn(game) {
     // console.log('game.getLegalActions(0)[0]')
     // var action = game.getLegalActions(0)[0];
-    console.log(123)
-    var action = this.state.minimax.getAction(game);
-    console.log(action);
+    // console.log(123)
+    var action = this.state.agent.getAction(game);
+    // console.log(action);
     // console.log('game.generateSuccessor(action,0)', action)
     return game.generateSuccessor(action,0);
   }
