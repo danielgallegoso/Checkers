@@ -3,7 +3,7 @@ class NaiveMinimaxAgent {
     var evalFunc = function(game) {
       return game.getScore();
     }
-    this.minimax = new minimaxAgent(evalFunc, 4);
+    this.minimax = new minimaxAgent(evalFunc, 4, 0);
   }
 
   getAction(game) {

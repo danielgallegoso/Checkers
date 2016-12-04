@@ -470,7 +470,7 @@ function numLonerKings (state, agent) {
 }
 
 
-function numLonerHoles(state, agent) {
+function numHoles(state, agent) {
     RedHoles = 0;
     BlackHoles = 0;
     for (var x = 0; x < state.WIDTH; x++) {

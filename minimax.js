@@ -85,7 +85,7 @@ class minimaxAgent {
             }
         }
     var alpha_beta = [0 - Infinity, Infinity];
-    var best_action = get_best_action(checkersState, 0, this.depth, agent, agent, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
+    var best_action = get_best_action(checkersState, 0, this.depth, this.agent, this.agent, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
     return best_action[0];
     }
 }
