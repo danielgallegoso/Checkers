@@ -27,7 +27,8 @@ var Board = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
     var game = new checkersGame();
-    var minimax = new minimaxAgent();
+    // var agent = new RandomAgent();
+    var agent = new NaiveMinimaxAgent();
     //     var tester =
     // "00000000~\
     // 00000000~\
@@ -39,11 +40,11 @@ var Board = function (_React$Component) {
     // 00000000";
     //
     //     game.setBoard(tester);
-    // console.log(game.board);
+    // console.log(game.board)
     // console.log('game.getLegalActions(1)')
     _this.state = {
       game: game,
-      minimax: minimax,
+      agent: agent,
       board: game.board,
       selectedPiece: null,
       actions: game.getLegalActions(1),
@@ -63,9 +64,9 @@ var Board = function (_React$Component) {
     value: function computersTurn(game) {
       // console.log('game.getLegalActions(0)[0]')
       // var action = game.getLegalActions(0)[0];
-      console.log(123);
-      var action = this.state.minimax.getAction(game);
-      console.log(action);
+      // console.log(123)
+      var action = this.state.agent.getAction(game);
+      // console.log(action);
       // console.log('game.generateSuccessor(action,0)', action)
       return game.generateSuccessor(action, 0);
     }

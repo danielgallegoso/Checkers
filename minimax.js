@@ -9,11 +9,13 @@ function shuffle(a) {
 }
 
 class minimaxAgent {
-    constructor() {
-        this.depth = 4;
+    constructor(evalFunc, depth) {
+        this.depth = depth;
+        this.evalFunc = evalFunc;
     }
 
     getAction(checkersState) {
+        var self = this;
         var get_best_action = function (checkersState, depth, max_depth, agent, alpha_beta) { //eval function in state
             if (checkersState.isWin(agent) == true || checkersState.isLose(agent) == true) {
                 return [null, checkersState.getScore()];
@@ -33,7 +35,8 @@ class minimaxAgent {
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
                         var next_score = null;
                         if (depth == max_depth) {
-                            next_score = checkersState.getScore()
+                            // next_score = checkersState.getScore()
+                            next_score = self.evalFunc(checkersState);
                         } else {
                             next_score = get_best_action(next_state, depth, max_depth, 1, alpha_beta)[1];
                         }
