@@ -9,27 +9,28 @@ function shuffle(a) {
 }
 
 class minimaxAgent {
-    constructor(evalFunc, depth) {
+    constructor(evalFunc, depth, agent) {
         this.depth = depth;
         this.evalFunc = evalFunc;
+        this.agent = agent
     }
 
     getAction(checkersState) {
         var self = this;
-        var get_best_action = function (checkersState, depth, max_depth, agent, alpha_beta) { //eval function in state
-            if (checkersState.isWin(agent) == true || checkersState.isLose(agent) == true) {
+        var get_best_action = function (checkersState, depth, max_depth, turn, agent, alpha_beta) { //eval function in state
+            if (checkersState.isWin(turn) == true || checkersState.isLose(turn) == true) {
                 return [null, checkersState.getScore()];
             }
-            var legal_actions = checkersState.getLegalActions(agent);
+            var legal_actions = checkersState.getLegalActions(turn);
             shuffle(legal_actions);
             var next_states = [];
             for (var i in legal_actions) {
-              next_states.push(checkersState.generateSuccessor(legal_actions[i], agent));
+              next_states.push(checkersState.generateSuccessor(legal_actions[i], turn));
             }
             var best_action = null;
             var best_score = null;
 
-            if (agent == 0) { // player
+            if (turn == agent) { // maximize!
                 for (var i = 0; i < next_states.length; i++) {
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
@@ -38,7 +39,7 @@ class minimaxAgent {
                             // next_score = checkersState.getScore()
                             next_score = self.evalFunc(checkersState);
                         } else {
-                            next_score = get_best_action(next_state, depth, max_depth, 1, alpha_beta)[1];
+                            next_score = get_best_action(next_state, depth, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                         }
                         if (i == 0) {
                             best_action = 0;
@@ -58,11 +59,11 @@ class minimaxAgent {
                     }
                 }
                 return [legal_actions[best_action], best_score];
-            } else { //computer
+            } else { //minimize!
                 for (var i = 0; i < next_states.length; i++) {
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
-                        var next_score = get_best_action(next_state, depth + 1, max_depth, 0, alpha_beta)[1];
+                        var next_score = get_best_action(next_state, depth + 1, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                         if (i == 0) {
                             best_action = 0;
                             best_score = next_score;
@@ -84,7 +85,7 @@ class minimaxAgent {
             }
         }
     var alpha_beta = [0 - Infinity, Infinity];
-    var best_action = get_best_action(checkersState, 0, this.depth, 0, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
+    var best_action = get_best_action(checkersState, 0, this.depth, agent, agent, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
     return best_action[0];
     }
 }
