@@ -1086,9 +1086,12 @@ var total = obj.length
 var state = new checkersGame()
 var naiveMinimax = new NaiveMinimaxAgent()
 
+<<<<<<< HEAD
 var weights = [4.270656236945501, 8.272722078071844, 4.824915178976637, 7.292838574253646, 4.079703915111446, 7.372571268013061, -8.679599941672302];
 var weightedMinimax = new SmallWeightedMinimaxAgent(weights, 0, 4);
 
+=======
+>>>>>>> e585253bbb3e99641a5e025ce696976e76e60168
 var numCorrectMoves = 0;
 var numTotalMoves = 0;
 var counter = 0;
@@ -1109,7 +1112,11 @@ for (var i in obj) {
 	state.numRedPieces = redPieces;
 	state.numBlackPieces = blackPieces;
     if(state.getLegalActions(0).length==1) continue;
+<<<<<<< HEAD
 	minimaxAction = weightedMinimax.getAction(state)
+=======
+	minimaxAction = naiveMinimax.getAction(state)
+>>>>>>> e585253bbb3e99641a5e025ce696976e76e60168
 	action = obj[i].move;
 
     //console.log(action);
@@ -1119,10 +1126,14 @@ for (var i in obj) {
         numCorrectMoves ++;
     }
     numTotalMoves++;
+<<<<<<< HEAD
     if(counter%10 == 0) {
        console.log(counter);
        console.log(numCorrectMoves / numTotalMoves); 
     } 
+=======
+    if(counter%10 == 0) console.log(counter);
+>>>>>>> e585253bbb3e99641a5e025ce696976e76e60168
     counter++;
 }
 
