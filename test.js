@@ -513,6 +513,7 @@ class WeightedMinimaxAgent {
   constructor(weights) {
     var evalFunc = function(game) {
       var score = 0;
+      /*
       score += numberOfPawns(game) * weights[0];
       score += numberOfKings(game) * weights[1];
       score += numSafePawns(game) * weights[2];
@@ -532,7 +533,23 @@ class WeightedMinimaxAgent {
       score += numHoles(game) * weights[16];
       score += numLonerPawns(game) * weights[17];
       score += numLonerKings(game) * weights[18];
+      */
       return score;
+    }
+    this.minimax = new minimaxAgent(evalFunc, 4);
+  }
+
+
+
+  getAction(game) {
+    return this.minimax.getAction(game);
+  }
+}
+
+class NaiveMinimaxAgent {
+  constructor() {
+    var evalFunc = function(game) {
+      return game.getScore();
     }
     this.minimax = new minimaxAgent(evalFunc, 4);
   }
@@ -540,6 +557,15 @@ class WeightedMinimaxAgent {
   getAction(game) {
     return this.minimax.getAction(game);
   }
+}
+
+function equal(arr1, arr2) {
+    if (arr1.length != arr2.length) return false;
+    for (var i=0; i<arr1.length-1; i++) {
+        if(arr1[i][0]!=arr2[i][0]) return false;
+        if(arr1[i][1]!=arr2[i][1]) return false;
+    }
+    return true;
 }
 
 var weights = [];
@@ -555,7 +581,11 @@ var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
 var successes = 0
 var total = obj.length
 var state = new checkersGame()
-var weightedMinimax = new WeightedMinimaxAgent(weights)
+var naiveMinimax = new NaiveMinimaxAgent()
+
+var numCorrectMoves = 0;
+var numTotalMoves = 0;
+var counter = 0;
 
 for (var i in obj) {
 	state.board = obj[i].board;
@@ -565,17 +595,31 @@ for (var i in obj) {
         for (var y = 0; y < state.HEIGHT; y ++) {
             if (state.board[y][x] == 1 || state.board[y][x] == 2) {
             	redPieces++;
-            ) else if (state.board[y][x] == 3 || state.board[y][x] == 4) {
+            } else if (state.board[y][x] == 3 || state.board[y][x] == 4) {
 				blackPieces++;
 			}
 		}
 	}
 	state.numRedPieces = redPieces;
 	state.numBlackPieces = blackPieces;
-
-	weightedMinimaxAgent.getAction(state)
+    if(state.getLegalActions(0).length==1) continue;
+	minimaxAction = naiveMinimax.getAction(state)
 	action = obj[i].move;
+
+    //console.log(action);
+    //console.log(minimaxAction);
+
+    if(equal(action, minimaxAction)) {
+        numCorrectMoves ++;
+    }
+    numTotalMoves++;
+    if(counter%10 == 0) console.log(counter);
+    counter++;
 }
+
+console.log(numCorrectMoves);
+console.log(numTotalMoves);
+console.log(numCorrectMoves / numTotalMoves);
 
 
 
