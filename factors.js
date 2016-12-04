@@ -6,26 +6,30 @@
 // 20 21 22
 
 
-function numberOfPawns(state) {
+function numberOfPawns(state, agent) {
     var numRedPawns= 0;
     var numBlackPawns = 0;
     for (var i = 0; i < state.WIDTH; i++) {
-        for (var j = 0; j < state,WIDTH; j++) {
+        for (var j = 0; j < state.HEIGHT; j++) {
             if (state.board[i][j] == 1) {
-                numRedKings++;
+                numRedPawns++;
             } else if (state.board[i][j] == 3) {
-                numBlackKings++;
+                numBlackPawns++;
             }
         }
     }
-    return (numRedPawns - numBlackPawns);
+    if (agent == 0) {
+        return (numRedPawns - numBlackPawns);
+    } else {
+        return (numBlackPawns - numRedPawns);
+    }
 }
 
-function numberOfKings(state) {
+function numberOfKings(state, agent) {
     var numRedKings = 0;
     var numBlackKings = 0;
     for (var i = 0; i < state.WIDTH; i++) {
-        for (var j = 0; j < state,WIDTH; j++) {
+        for (var j = 0; j < state.HEIGHT; j++) {
             if (state.board[i][j] == 2) {
                 numRedKings++;
             } else if (state.board[i][j] == 4) {
@@ -34,14 +38,18 @@ function numberOfKings(state) {
 
         }
     }
-    return (numRedKings - numBlackKings);
+    if (agent == 0) {
+        return (numRedKings - numBlackKings);
+    } else {
+        return (numBlackKings - numRedKings);
+    }
 }
 
-function numSafePawns(state) {
+function numSafePawns(state, agent) {
     var numRedPawns = 0;
     var numBlackPawns = 0;
     for (var i = 0; i < state.WIDTH; i++) {
-        for (var j = 0; j < state,WIDTH; j++) {
+        for (var j = 0; j < state.HEIGHT; j++) {
             if (i == 0 || i == 7 || j == 0 || j == 7) {
                 if (state.board[i][j] == 1) {
                     numRedPawns++;
@@ -51,14 +59,18 @@ function numSafePawns(state) {
             }
         }
     }
-    return (numRedPawns - numBlackPawns);
+    if (agent == 0) {
+        return (numRedPawns - numBlackPawns);
+    } else {
+        return (numBlackPawns - numRedPawns);
+    }
 }
 
-function numSafeKings(state) {
+function numSafeKings(state, agent) {
     var numRedKings = 0;
     var numBlackKings = 0;
     for (var i = 0; i < state.WIDTH; i++) {
-        for (var j = 0; j < state,WIDTH; j++) {
+        for (var j = 0; j < state.HEIGHT; j++) {
             if (i == 0 || i == 7 || j == 0 || j == 7) {
                 if (state.board[i][j] == 2) {
                     numRedKings++;
@@ -68,11 +80,15 @@ function numSafeKings(state) {
             }
         }
     }
-    return (numRedKings - numBlackKings);
+    if (agent == 0) {
+        return (numRedKings - numBlackKings);
+    } else {
+        return (numBlackKings - numRedKings);
+    }
 }
 
 
-function numMovablePawns (state) {
+function numMovablePawns (state, agent) {
     var numRedPawns = 0;
     var numBlackPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -94,10 +110,14 @@ function numMovablePawns (state) {
             }
         }
     }
-    return (numRedPawns - numBlackPawns);
+    if (agent == 0) {
+        return (numRedPawns - numBlackPawns);
+    } else {
+        return (numBlackPawns - numRedPawns);
+    }
 }
 
-function numMovableKings (state) {
+function numMovableKings (state, agent) {
     var numRedKings = 0;
     var numBlackKings = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -115,7 +135,7 @@ function numMovableKings (state) {
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     numRedKings++;
                 }
-            } else if (state.board[y][x] == 3) {
+            } else if (state.board[y][x] == 4) {
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     numBlackKings++;
                 }
@@ -131,12 +151,14 @@ function numMovableKings (state) {
             }
         }
     }
-    return (numRedKings - numBlackKings);
+    if (agent == 0) {
+        return (numRedKings - numBlackKings);
+    } else {
+        return (numBlackKings - numRedKings);
+    }
 }
 
-
-
-function distanceToPromotion(state) {
+function distanceToPromotion(state, agent) {
     var RedPawnDistance = 0;
     var BlackPawnDistance = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -145,14 +167,18 @@ function distanceToPromotion(state) {
                 RedPawnDistance = RedPawnDistance + (state.HEIGHT - 1 - y);
             }
             if (state.board[y][x] == 3) {
-                BlackPawnDistance = BlackPawnDistance + y
+                BlackPawnDistance = BlackPawnDistance + y;
             }
         }
     }
-    return (RedPawnDistance - BlackPawnDistance)
+    if (agent == 0) {
+        return (RedPawnDistance - BlackPawnDistance)
+    } else {
+        return (BlackPawnDistance - RedPawnDistance);
+    }
 }
 
-function promotionAvailability(state) {
+function promotionAvailability(state, agent) {
     var RedAvailability = 0;
     var BlackAvailability = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -163,14 +189,19 @@ function promotionAvailability(state) {
             RedAvailability++;
         }
     }
-    return (RedAvailability - BlackAvailability);
+    if (agent == 0) {
+        return (RedAvailability - BlackAvailability);
+    } else {
+        return (BlackAvailability - RedAvailability);
+    }
+
 }
 
-function numDefenders(state) {
+function numDefenders(state, agent) {
     var RedDefenders = 0;
     var BlackDefenders = 0;
     for (var x = 0; x < state.WIDTH; x++) {
-        for(var y = 0; y < state.HEIGHT; y ++) {
+        for(var y = 0; y < state.HEIGHT; y++) {
             if (y == state.HEIGHT || y == (state.HEIGHT - 1)) {
                 if (state.board[y][x] == 1 || state.board[y][x] == 2) {
                     BlackDefenders++;
@@ -181,13 +212,16 @@ function numDefenders(state) {
                     RedDefenders++;
                 }
             }
-
         }
     }
-    return (RedDefenders - BlackDefenders)
+    if (agent == 0) {
+        return (RedDefenders - BlackDefenders)
+    } else {
+        return (BlackDefenders - RedDefenders);
+    }
 }
 
-function numAttackers(state) {
+function numAttackers(state, agent) {
     var RedAttackers = 0;
     var BlackAttackers = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -204,10 +238,14 @@ function numAttackers(state) {
             }
         }
     }
-    return (RedAttackers - BlackAttackers)
+    if (agent == 0) {
+        return (RedAttackers - BlackAttackers);
+    } else {
+        return (BlackAttackers - RedAttackers);
+    }
 }
 
-function numCentralPawns(state) { //3,4,5,6
+function numCentralPawns(state, agent) { //3,4,5,6
     var RedCentralPawns = 0;
     var BlackCentralPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -220,13 +258,17 @@ function numCentralPawns(state) { //3,4,5,6
                 }
             }
         }
+    } 
+    if (agent == 0) {
+        return (RedCentralPawns - BlackCentralPawns) 
+    } else {
+        return (BlackCentralPawns - RedCentralPawns);
     }
-    return (RedCentralPawns - BlackCentralPawns)
 }
 
-function numCentralKings(state) { //3,4,5,6
-    var RedCentralPawns = 0;
-    var BlackCentralPawns = 0;
+function numCentralKings(state, agent) { //3,4,5,6
+    var RedCentralKings = 0;
+    var BlackCentralKings = 0;
     for (var x = 0; x < state.WIDTH; x++) {
         for(var y = 0; y < state.HEIGHT; y ++) {
             if (x >= 3 && x <= 6 && y >= 3 && y <= 6) {
@@ -238,9 +280,14 @@ function numCentralKings(state) { //3,4,5,6
             }
         }
     }
-    return (RedCentralKings - BlackCentralKings)
+    if (agent == 0) {
+        return (RedCentralKings - BlackCentralKings) 
+    } else {
+        return (BlackCentralKings - RedCentralKings);
+    }
+
 }
-function numPawnsMainDiagonal(state){
+function numPawnsMainDiagonal(state, agent){
     var RedPawnsMD = 0;
     var BlackPawnsMD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -254,10 +301,14 @@ function numPawnsMainDiagonal(state){
             }
         }
     }
-    return (RedPawnsMD - BlackPawnsMD)
+    if (agent == 0) {
+        return (RedPawnsMD - BlackPawnsMD);  
+    } else {
+        return (BlackPawnsMD - RedPawnsMD);
+    }
 }
 
-function numKingsMainDiagonal(state){
+function numKingsMainDiagonal(state, agent){
     var RedKingsMD = 0;
     var BlackKingsMD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -271,10 +322,14 @@ function numKingsMainDiagonal(state){
             }
         }
     }
-    return (RedKingsMD - BlackKingsMD)
+    if (agent == 0) {
+        return (RedKingsMD - BlackKingsMD) 
+    } else {
+        return (BlackKingsMD - RedKingsMD);
+    }
 }
 
-function numPawnsDoubleDiagonal(state){
+function numPawnsDoubleDiagonal(state, agent){
     var RedPawnsDD = 0;
     var BlackPawnsDD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -288,10 +343,14 @@ function numPawnsDoubleDiagonal(state){
             }
         }
     }
-    return (RedPawnsMD - BlackPawnsMD)
+    if (agent == 0) {
+        return (RedPawnsDD - BlackPawnsDD) 
+    } else {
+        return (BlackPawnsDD - RedPawnsDD);
+    }
 }
 
-function numKingsDoubleDiagonal(state){
+function numKingsDoubleDiagonal(state, agent){
     var RedKingsDD = 0;
     var BlackKingsDD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -305,10 +364,14 @@ function numKingsDoubleDiagonal(state){
             }
         }
     }
-    return (RedKingsMD - BlackKingsMD)
+    if (agent == 0) {
+        return (RedKingsDD - BlackKingsDD) 
+    } else {
+        return (BlackKingsDD - RedKingsDD);
+    }
 }
 
-function numLonerPawns (state) {
+function numLonerPawns (state, agent) {
     var RedLonerPawns = 0;
     var BlackLonerPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -350,10 +413,14 @@ function numLonerPawns (state) {
             }
         }
     }
-    return (RedLonerPawns - BlackLonerPawns);    
+    if (agent == 0) {
+        return (RedLonerPawns - BlackLonerPawns);
+    } else {
+        return (BlackLonerPawns - RedLonerPawns);
+    }    
 }
 
-function numLonerPawns (state) {
+function numLonerKings (state, agent) {
     var RedLonerKings = 0;
     var BlackLonerKings = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -395,11 +462,15 @@ function numLonerPawns (state) {
             }
         }
     }
-    return (RedLonerKings - BlackLonerKings); 
+    if (agent == 0) {
+        return (RedLonerKings - BlackLonerKings) 
+    } else {
+        return (BlackLonerKings - RedLonerKings);
+    }
 }    
 
 
-function numLonerHoles(state) {
+function numLonerHoles(state, agent) {
     RedHoles = 0;
     BlackHoles = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -435,5 +506,9 @@ function numLonerHoles(state) {
             }
         }
     }
-    return (RedHoles - BlackHoles);
+    if (agent == 0) {
+        return (RedHoles - BlackHoles); 
+    } else {
+        return (BlackHoles - RedHoles);
+    }
 }
