@@ -308,7 +308,98 @@ function numKingsDoubleDiagonal(state){
     return (RedKingsMD - BlackKingsMD) 
 }
 
-function numHoles(state) {
+function numLonerPawns (state) {
+    var RedLonerPawns = 0;
+    var BlackLonerPawns = 0;
+    for (var x = 0; x < state.WIDTH; x++) {
+        for (var y = 0; y < state.HEIGHT; y ++) {
+            if (state.board[y][x] == 1) {
+                var redLonerCounter = 0
+                if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
+                    redLonerCounter++;
+                }
+                if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
+                    redLonerCounter++;
+                }      
+                if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
+                    redLonerCounter++;
+                }
+                if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
+                    redLonerCounter++;
+                }
+                if (redLonerCounter == 4) {
+                    RedLonerPawns++;
+                }                                  
+            } else if (state.board[y][x] == 3) {
+                var blackLonerCounter = 0
+                if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
+                    blackLonerCounter++;
+                }
+                if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
+                    blackLonerCounter++;
+                }    
+                if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
+                    blackLonerCounter++;
+                }
+                if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
+                    blackLonerCounter++; 
+                }   
+                if (blackLonerCounter == 4) {
+                    BlackLonerPawns++;
+                }                   
+            }
+        }
+    }
+    return (RedLonerPawns - BlackLonerPawns);    
+}
+
+function numLonerPawns (state) {
+    var RedLonerKings = 0;
+    var BlackLonerKings = 0;
+    for (var x = 0; x < state.WIDTH; x++) {
+        for (var y = 0; y < state.HEIGHT; y ++) {
+            if (state.board[y][x] == 2) {
+                var redLonerCounter = 0
+                if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
+                    redLonerCounter++;
+                }
+                if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
+                    redLonerCounter++;
+                }      
+                if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
+                    redLonerCounter++;
+                }
+                if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
+                    redLonerCounter++;
+                }
+                if (redLonerCounter == 4) {
+                    RedLonerKings++;
+                }                                  
+            } else if (state.board[y][x] == 4) {
+                var blackLonerCounter = 0
+                if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
+                    blackLonerCounter++;
+                }
+                if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
+                    blackLonerCounter++;
+                }    
+                if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
+                    blackLonerCounter++;
+                }
+                if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
+                    blackLonerCounter++; 
+                }   
+                if (blackLonerCounter == 4) {
+                    BlackLonerKings++;
+                }                   
+            }
+        }
+    }
+    return (RedLonerKings - BlackLonerKings); 
+}    
+
+
+function numLonerHoles(state) {
     RedHoles = 0;
     BlackHoles = 0;
     for (var x = 0; x < state.WIDTH; x++) {
