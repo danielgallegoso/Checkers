@@ -3,7 +3,7 @@
 
 // 00 01 02
 // 10 11 12
-// 20 21 22 
+// 20 21 22
 
 
 function numberOfPawns(state) {
@@ -47,7 +47,7 @@ function numSafePawns(state) {
                     numRedPawns++;
                 } else if (state.board[i][j] == 3) {
                     numBlackPawns++;
-                }    
+                }
             }
         }
     }
@@ -64,7 +64,7 @@ function numSafeKings(state) {
                     numRedKings++;
                 } else if (state.board[i][j] == 4) {
                     numBlackKings++;
-                }    
+                }
             }
         }
     }
@@ -83,18 +83,18 @@ function numMovablePawns (state) {
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
                     numRedPawns++;
-                }                       
+                }
             } else if (state.board[y][x] == 3) {
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     numBlackPawns++;
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     numBlackPawns++;
-                }                       
+                }
             }
         }
     }
-    return (numRedPawns - numBlackPawns);    
+    return (numRedPawns - numBlackPawns);
 }
 
 function numMovableKings (state) {
@@ -108,30 +108,30 @@ function numMovableKings (state) {
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
                     numRedKings++;
-                }      
+                }
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     numRedKings++;
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     numRedKings++;
-                }                                  
+                }
             } else if (state.board[y][x] == 3) {
                 if (state.inBounds(y-1, x+1) && state.board[y-1][x+1]==0) {
                     numBlackKings++;
                 }
                 if (state.inBounds(y-1, x-1) && state.board[y-1][x-1]==0) {
                     numBlackKings++;
-                }    
+                }
                 if (state.inBounds(y+1, x+1) && state.board[y+1][x+1]==0) {
                     numBlackKings++;
                 }
                 if (state.inBounds(y+1, x-1) && state.board[y+1][x-1]==0) {
-                    numBlackKings++; 
-                }                  
+                    numBlackKings++;
+                }
             }
         }
     }
-    return (numRedKings - numBlackKings);    
+    return (numRedKings - numBlackKings);
 }
 
 
@@ -183,7 +183,7 @@ function numDefenders(state) {
             }
 
         }
-    }     
+    }
     return (RedDefenders - BlackDefenders)
 }
 
@@ -203,8 +203,8 @@ function numAttackers(state) {
                 }
             }
         }
-    }     
-    return (RedAttackers - BlackAttackers) 
+    }
+    return (RedAttackers - BlackAttackers)
 }
 
 function numCentralPawns(state) { //3,4,5,6
@@ -220,11 +220,11 @@ function numCentralPawns(state) { //3,4,5,6
                 }
             }
         }
-    }     
-    return (RedCentralPawns - BlackCentralPawns) 
+    }
+    return (RedCentralPawns - BlackCentralPawns)
 }
 
-function numCentralKingss(state) { //3,4,5,6
+function numCentralKings(state) { //3,4,5,6
     var RedCentralPawns = 0;
     var BlackCentralPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -237,8 +237,8 @@ function numCentralKingss(state) { //3,4,5,6
                 }
             }
         }
-    }     
-    return (RedCentralKings - BlackCentralKings) 
+    }
+    return (RedCentralKings - BlackCentralKings)
 }
 function numPawnsMainDiagonal(state){
     var RedPawnsMD = 0;
@@ -253,8 +253,8 @@ function numPawnsMainDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedPawnsMD - BlackPawnsMD) 
+    }
+    return (RedPawnsMD - BlackPawnsMD)
 }
 
 function numKingsMainDiagonal(state){
@@ -270,8 +270,8 @@ function numKingsMainDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedKingsMD - BlackKingsMD) 
+    }
+    return (RedKingsMD - BlackKingsMD)
 }
 
 function numPawnsDoubleDiagonal(state){
@@ -287,8 +287,8 @@ function numPawnsDoubleDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedPawnsMD - BlackPawnsMD) 
+    }
+    return (RedPawnsMD - BlackPawnsMD)
 }
 
 function numKingsDoubleDiagonal(state){
@@ -304,8 +304,8 @@ function numKingsDoubleDiagonal(state){
                 }
             }
         }
-    }     
-    return (RedKingsMD - BlackKingsMD) 
+    }
+    return (RedKingsMD - BlackKingsMD)
 }
 
 function numHoles(state) {
@@ -317,22 +317,22 @@ function numHoles(state) {
                 var numRedNeighbors = 0;
                 var numBlackNeighbors = 0;
                 if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1] ==1 || state.board[y+1][x+1] == 2)) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y+1, x+1) && (state.board[y+1][x+1]== 3 || state.board[y+1][x+1]== 4)) {
                     numBlackNeighbors++;
                 }
                 if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]==1 || state.board[y+1][x-1]== 2)) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y+1, x-1) && (state.board[y+1][x-1]== 3 || state.board[y+1][x-1]== 4)) {
                     numBlackNeighbors++;
                 }
                 if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]==1 || state.board[y-1][x+1]== 2)) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y-1, x+1) && (state.board[y-1][x+1]== 3 || state.board[y-1][x+1]== 4)) {
                     numBlackNeighbors++;
-                } 
+                }
                 if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]==1 || state.board[y-1][x-1]== 2)) {
-                    numRedNeighbors++; 
+                    numRedNeighbors++;
                 } else if (state.inBounds(y-1, x-1) && (state.board[y-1][x-1]== 3 || state.board[y-1][x-1]== 4)) {
                     numBlackNeighbors++;
                 }
@@ -340,10 +340,9 @@ function numHoles(state) {
                     RedHoles += 1;
                 } else if (numBlackNeighbors >= 3) {
                     BlackHoles += 1;
-                }      
+                }
             }
         }
     }
-    return (RedHoles - BlackHoles);    
+    return (RedHoles - BlackHoles);
 }
-
