@@ -12,20 +12,23 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     var game = new checkersGame();
-    var tester =
-    "00000000~\
-00100000~\
-03000000~\
-00000000~\
-00000000~\
-00000000~\
-00000000~\
-00000000";
-
-    game.setBoard(tester);
-    console.log(game.board);
+    var minimax = new minimaxAgent();
+//     var tester =
+// "00000000~\
+// 00000000~\
+// 00000000~\
+// 00001010~\
+// 00000000~\
+// 00000000~\
+// 00000003~\
+// 00000000";
+//
+//     game.setBoard(tester);
+    // console.log(game.board);
+    // console.log('game.getLegalActions(1)')
     this.state = {
       game: game,
+      minimax: minimax,
       board: game.board,
       selectedPiece: null,
       actions: game.getLegalActions(1),
@@ -40,18 +43,24 @@ class Board extends React.Component {
   }
 
   computersTurn(game) {
-    console.log("computersTurn");
-    var action = game.getLegalActions(0)[0];
+    // console.log('game.getLegalActions(0)[0]')
+    // var action = game.getLegalActions(0)[0];
+    console.log(123)
+    var action = this.state.minimax.getAction(game);
+    console.log(action);
+    // console.log('game.generateSuccessor(action,0)', action)
     return game.generateSuccessor(action,0);
   }
 
-  checkIsWin(game) {
-    if (game.isWin(1) || game.isLose(1)) {
+  checkIsWin(game, agentTurn) {
+    // console.log('game.isWin')
+    if (game.isWin(agentTurn) || game.isLose(agentTurn)) {
+
       this.setState({
         board: game.board,
         selectedPiece: null,
         possibleActions: {},
-        isWin: game.isWin(1),
+        isWin: agentTurn == 1 ? game.isWin(agentTurn) : !game.isWin(agentTurn),
       });
       return true;
     }
@@ -60,7 +69,7 @@ class Board extends React.Component {
 
   // action: [starting point, intermediate states, ending point, piece taken]
   onGridClick(e) {
-    console.log("Click")
+    // console.log("Click")
     if (this.state.isWin != null) {
       return;
     }
@@ -81,10 +90,12 @@ class Board extends React.Component {
     } else if (Object.keys(this.state.possibleActions).indexOf(id) >= 0) {
       var i = Object.keys(this.state.possibleActions).indexOf(id)
       var action = this.state.possibleActions[Object.keys(this.state.possibleActions)[i]]
+      // console.log('this.state.game.generateSuccessor(action, 1)', action)
       var tempGame = this.state.game.generateSuccessor(action, 1);
-      if (this.checkIsWin(tempGame)) return;
+      if (this.checkIsWin(tempGame, 0)) return;
       var game = this.computersTurn(tempGame);
-      if (this.checkIsWin(tempGame)) return;
+      if (this.checkIsWin(game, 1)) return;
+      // console.log('game.getLegalActions(1)')
       this.setState({
         game: game,
         board: game.board,

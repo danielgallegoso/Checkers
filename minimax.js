@@ -21,8 +21,8 @@ class minimaxAgent {
             var legal_actions = checkersState.getLegalActions(agent);
             shuffle(legal_actions);
             var next_states = [];
-            for (action in legal_actions) {
-                next_states.push(checkersState.generateSuccessor(action, agent));
+            for (var i in legal_actions) {
+              next_states.push(checkersState.generateSuccessor(legal_actions[i], agent));
             }
             var best_action = null;
             var best_score = null;
@@ -81,7 +81,7 @@ class minimaxAgent {
             }
         }
     var alpha_beta = [0 - Infinity, Infinity];
-    var best_action = get_best_action(checkersState, 0, self.depth, 0, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
+    var best_action = get_best_action(checkersState, 0, this.depth, 0, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
     return best_action[0];
     }
 }
