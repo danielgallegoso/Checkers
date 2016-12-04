@@ -246,9 +246,11 @@ class checkersGame {
                 foundMove = true;
                 path.push([x+2, y+2]);
                 var oldValue = this.board[y+1][x+1];
+
                 this.board[y+1][x+1] = 0;
                 this.recursiveEatSearch(x+2, y+2, piece, actions, path);
                 this.board[y+1][x+1] = oldValue
+
                 path.pop();
             }
             if (this.inBounds(y+1, x-1) && this.board[y+1][x-1]>2 && this.inBounds(y+2, x-2) && this.board[y+2][x-2]==0) {
@@ -257,7 +259,7 @@ class checkersGame {
                 var oldValue = this.board[y+1][x-1];
                 this.board[y+1][x-1] = 0;
                 this.recursiveEatSearch(x-2, y+2, piece, actions, path);
-                this.board[y+1][x-1] = 0;
+                this.board[y+1][x-1] = oldValue;
                 path.pop();
             }
             if(!foundMove && path.length > 1) {
@@ -413,19 +415,20 @@ class checkersGame {
 }
 
 var game = new checkersGame();
-var tester =
-"00000000~\
-00100000~\
-03000000~\
+var tester = "04040001~\
+00003010~\
+00000001~\
+00000010~\
+00000300~\
 00000000~\
 00000000~\
-00000000~\
-00000000~\
-00000000";
+00303030"
+
 game.setBoard(tester);
 console.log(game.board);
-actions = game.getLegalActions(1);
-console.log(actions)
-game = game.generateSuccessor(actions[0],1);
-console.log(game.board)
+
+console.log(game.isWin(1));
+console.log(game.isWin(0));
+
+
 
