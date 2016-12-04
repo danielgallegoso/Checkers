@@ -569,55 +569,55 @@ function equal(arr1, arr2) {
     return true;
 }
 
-var weights = [];
-for (i = 0; i < 19; i++) {
-	weights.push[1]
-}
-
-var fs = require('fs');
-var file = "transcripttest.json"
-var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
-
-
-var successes = 0
-var total = obj.length
-var state = new checkersGame()
-var naiveMinimax = new NaiveMinimaxAgent()
-
-var numCorrectMoves = 0;
-var numTotalMoves = 0;
-var counter = 0;
-
-for (var i in obj) {
-	state.board = obj[i].board;
-	var redPieces = 0;
-	var blackPieces = 0;
-	for (var x = 0; x < state.WIDTH; x++) {
-        for (var y = 0; y < state.HEIGHT; y ++) {
-            if (state.board[y][x] == 1 || state.board[y][x] == 2) {
-            	redPieces++;
-            } else if (state.board[y][x] == 3 || state.board[y][x] == 4) {
-				blackPieces++;
-			}
-		}
-	}
-	state.numRedPieces = redPieces;
-	state.numBlackPieces = blackPieces;
-    if(state.getLegalActions(0).length==1) continue;
-	minimaxAction = naiveMinimax.getAction(state)
-	action = obj[i].move;
-
-    //console.log(action);
-    //console.log(minimaxAction);
-
-    if(equal(action, minimaxAction)) {
-        numCorrectMoves ++;
-    }
-    numTotalMoves++;
-    if(counter%10 == 0) console.log(counter);
-    counter++;
-}
-
-console.log(numCorrectMoves);
-console.log(numTotalMoves);
-console.log(numCorrectMoves / numTotalMoves);
+// var weights = [];
+// for (i = 0; i < 19; i++) {
+// 	weights.push[1]
+// }
+//
+// var fs = require('fs');
+// var file = "transcripttest.json"
+// var obj = JSON.parse(fs.readFileSync(file, 'utf8'));
+//
+//
+// var successes = 0
+// var total = obj.length
+// var state = new checkersGame()
+// var naiveMinimax = new NaiveMinimaxAgent()
+//
+// var numCorrectMoves = 0;
+// var numTotalMoves = 0;
+// var counter = 0;
+//
+// for (var i in obj) {
+// 	state.board = obj[i].board;
+// 	var redPieces = 0;
+// 	var blackPieces = 0;
+// 	for (var x = 0; x < state.WIDTH; x++) {
+//         for (var y = 0; y < state.HEIGHT; y ++) {
+//             if (state.board[y][x] == 1 || state.board[y][x] == 2) {
+//             	redPieces++;
+//             } else if (state.board[y][x] == 3 || state.board[y][x] == 4) {
+// 				blackPieces++;
+// 			}
+// 		}
+// 	}
+// 	state.numRedPieces = redPieces;
+// 	state.numBlackPieces = blackPieces;
+//     if(state.getLegalActions(0).length==1) continue;
+// 	minimaxAction = naiveMinimax.getAction(state)
+// 	action = obj[i].move;
+//
+//     //console.log(action);
+//     //console.log(minimaxAction);
+//
+//     if(equal(action, minimaxAction)) {
+//         numCorrectMoves ++;
+//     }
+//     numTotalMoves++;
+//     if(counter%10 == 0) console.log(counter);
+//     counter++;
+// }
+//
+// console.log(numCorrectMoves);
+// console.log(numTotalMoves);
+// console.log(numCorrectMoves / numTotalMoves);

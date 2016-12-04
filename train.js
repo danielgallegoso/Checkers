@@ -1,21 +1,27 @@
 class AgentEvolution {
   constructor(popSize) {
-    this.winner = []
-    for (var i = 0; i < 19; i++) this.winner[i] = 0;
+    this.winner = [5,5,5,5,5,5,-5]
+    // for (var i = 0; i < 7; i++) this.winner[i] = 0;
     this.popSize = popSize;
+  }
+
+  function random() {
+    var u = 1 - Math.random();
+    var v = 1 - Math.random();
+    return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
   }
 
   newWeights() {
     var result = [];
     for (var i = 0; i < this.winner.length; i++) {
-      result[i] = this.winner[i] + Math.random() * 2 - 1;
+      result[i] = this.winner[i] + this.random();
     }
     return result;
   }
 
   simulateGame(w0, w1) {
-    var p0 = new WeightedMinimaxAgent(w0, 0, 3);
-    var p1 = new WeightedMinimaxAgent(w1, 1, 3);
+    var p0 = new SmallWeightedMinimaxAgent(w0, 0, 3);
+    var p1 = new SmallWeightedMinimaxAgent(w1, 1, 3);
     // console.log(w0, w1)
     for (var a = 0; a < 5; a++) {
       console.log(a)
