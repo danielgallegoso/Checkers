@@ -10,8 +10,8 @@ class checkersGame {
     constructor() {
         this.WIDTH = 8;
         this.HEIGHT = 8;
-        this.numRedPieces = 8;
-        this.numBlackPieces = 8;
+        this.numRedPieces = 13;
+        this.numBlackPieces = 13;
         this.board = new Array(8); // this.agent!
         for (var i = 0; i < 8; i++) {
             this.board[i] = new Array(8);
