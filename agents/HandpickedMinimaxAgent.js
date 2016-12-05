@@ -7,6 +7,7 @@ class HandpickedMinimaxAgent {
       score += numSafePawns(game, agent) * 1;
       score += numSafeKings(game, agent) * 1.5;
       score += numCentralPawns(game, agent) * 2;
+      score += numCentralKings(game, agent) * 1;
       return score;
     }
     this.minimax = new minimaxAgent(evalFunc, 4, agent);
