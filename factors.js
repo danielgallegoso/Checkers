@@ -20,6 +20,13 @@ function normalize(features) {
     return features;
 }
 
+function isEndgame(state) {
+    if (state.numRedPieces <= 5 || state.numBlackPieces <= 5) {
+        return true;
+    }
+    return false;
+}
+
 
 function numberOfPawns(state, agent) { // #1, keep
     var numRedPawns= 0;
