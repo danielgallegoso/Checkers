@@ -16,7 +16,7 @@ function normalize(weights) {
         if (weights[i] > 10) {
             weights[i] = 10
         }
-    } 
+    }
     return features;
 }
 
@@ -47,7 +47,7 @@ function numberOfPawns(state, agent) { // #1, keep
     }
 }
 
-function numberOfKings(state, agent) { // #2, keep 
+function numberOfKings(state, agent) { // #2, keep
     var numRedKings = 0;
     var numBlackKings = 0;
     for (var i = 0; i < state.WIDTH; i++) {
@@ -534,6 +534,3 @@ function numHoles(state, agent) { // #19, keep
         return (BlackHoles - RedHoles);
     }
 }
-
-function 
-
