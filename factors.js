@@ -5,16 +5,16 @@
 // 10 11 12
 // 20 21 22
 
-function normalize(features) {
+function normalize(weights) {
     sum = 0
-    for (var i = 0; i < features.length; i++) {
-        sum = sum + (features[i] * features[i])
+    for (var i = 0; i < weights.length; i++) {
+        sum = sum + (weights[i] * weights[i])
     }
     sqrt = Math.sqrt(sum)
-    for (var i = 0; i < features.length; i++) {
-        features[i] = features[i] / sqrt
-        if (features[i] > 10) {
-            features[i] = 10
+    for (var i = 0; i < weights.length; i++) {
+        weights[i] = weights[i] / sqrt
+        if (weights[i] > 10) {
+            weights[i] = 10
         }
     } 
     return features;
