@@ -5,8 +5,30 @@
 // 10 11 12
 // 20 21 22
 
+function normalize(features) {
+    sum = 0
+    for (var i = 0; i < features.length; i++) {
+        sum = sum + (features[i] * features[i])
+    }
+    sqrt = Math.sqrt(sum)
+    for (var i = 0; i < features.length; i++) {
+        features[i] = features[i] / sqrt
+        if (features[i] > 10) {
+            features[i] = 10
+        }
+    } 
+    return features;
+}
 
-function numberOfPawns(state, agent) {
+function isEndgame(state) {
+    if (state.numRedPieces <= 5 || state.numBlackPieces <= 5) {
+        return true;
+    }
+    return false;
+}
+
+
+function numberOfPawns(state, agent) { // #1, keep
     var numRedPawns= 0;
     var numBlackPawns = 0;
     for (var i = 0; i < state.WIDTH; i++) {
@@ -25,7 +47,7 @@ function numberOfPawns(state, agent) {
     }
 }
 
-function numberOfKings(state, agent) {
+function numberOfKings(state, agent) { // #2, keep 
     var numRedKings = 0;
     var numBlackKings = 0;
     for (var i = 0; i < state.WIDTH; i++) {
@@ -45,7 +67,7 @@ function numberOfKings(state, agent) {
     }
 }
 
-function numSafePawns(state, agent) {
+function numSafePawns(state, agent) { // #3, nah
     var numRedPawns = 0;
     var numBlackPawns = 0;
     for (var i = 0; i < state.WIDTH; i++) {
@@ -66,7 +88,7 @@ function numSafePawns(state, agent) {
     }
 }
 
-function numSafeKings(state, agent) {
+function numSafeKings(state, agent) { // #4, nah
     var numRedKings = 0;
     var numBlackKings = 0;
     for (var i = 0; i < state.WIDTH; i++) {
@@ -88,7 +110,7 @@ function numSafeKings(state, agent) {
 }
 
 
-function numMovablePawns (state, agent) {
+function numMovablePawns (state, agent) { // #5, nah
     var numRedPawns = 0;
     var numBlackPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -117,7 +139,7 @@ function numMovablePawns (state, agent) {
     }
 }
 
-function numMovableKings (state, agent) {
+function numMovableKings (state, agent) { // #6, nah
     var numRedKings = 0;
     var numBlackKings = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -158,7 +180,7 @@ function numMovableKings (state, agent) {
     }
 }
 
-function distanceToPromotion(state, agent) {
+function distanceToPromotion(state, agent) { // #7, keep
     var RedPawnDistance = 0;
     var BlackPawnDistance = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -178,7 +200,7 @@ function distanceToPromotion(state, agent) {
     }
 }
 
-function promotionAvailability(state, agent) {
+function promotionAvailability(state, agent) { // #8, nah
     var RedAvailability = 0;
     var BlackAvailability = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -197,7 +219,7 @@ function promotionAvailability(state, agent) {
 
 }
 
-function numDefenders(state, agent) {
+function numDefenders(state, agent) { // #9, keep
     var RedDefenders = 0;
     var BlackDefenders = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -221,7 +243,7 @@ function numDefenders(state, agent) {
     }
 }
 
-function numAttackers(state, agent) {
+function numAttackers(state, agent) { // #10, keep
     var RedAttackers = 0;
     var BlackAttackers = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -245,7 +267,7 @@ function numAttackers(state, agent) {
     }
 }
 
-function numCentralPawns(state, agent) { //3,4,5,6
+function numCentralPawns(state, agent) { // #11, keep
     var RedCentralPawns = 0;
     var BlackCentralPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -266,7 +288,7 @@ function numCentralPawns(state, agent) { //3,4,5,6
     }
 }
 
-function numCentralKings(state, agent) { //3,4,5,6
+function numCentralKings(state, agent) { // #12, keep
     var RedCentralKings = 0;
     var BlackCentralKings = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -287,7 +309,7 @@ function numCentralKings(state, agent) { //3,4,5,6
     }
 
 }
-function numPawnsMainDiagonal(state, agent){
+function numPawnsMainDiagonal(state, agent){ // #13, nah
     var RedPawnsMD = 0;
     var BlackPawnsMD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -308,7 +330,7 @@ function numPawnsMainDiagonal(state, agent){
     }
 }
 
-function numKingsMainDiagonal(state, agent){
+function numKingsMainDiagonal(state, agent){ // #14, nah
     var RedKingsMD = 0;
     var BlackKingsMD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -329,7 +351,7 @@ function numKingsMainDiagonal(state, agent){
     }
 }
 
-function numPawnsDoubleDiagonal(state, agent){
+function numPawnsDoubleDiagonal(state, agent){ // #15, nah
     var RedPawnsDD = 0;
     var BlackPawnsDD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -350,7 +372,7 @@ function numPawnsDoubleDiagonal(state, agent){
     }
 }
 
-function numKingsDoubleDiagonal(state, agent){
+function numKingsDoubleDiagonal(state, agent){ // #16, nah
     var RedKingsDD = 0;
     var BlackKingsDD = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -371,7 +393,7 @@ function numKingsDoubleDiagonal(state, agent){
     }
 }
 
-function numLonerPawns (state, agent) {
+function numLonerPawns (state, agent) {// #17, nah
     var RedLonerPawns = 0;
     var BlackLonerPawns = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -420,7 +442,7 @@ function numLonerPawns (state, agent) {
     }
 }
 
-function numLonerKings (state, agent) {
+function numLonerKings (state, agent) { // #18, nah
     var RedLonerKings = 0;
     var BlackLonerKings = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -470,7 +492,7 @@ function numLonerKings (state, agent) {
 }
 
 
-function numHoles(state, agent) {
+function numHoles(state, agent) { // #19, keep
     RedHoles = 0;
     BlackHoles = 0;
     for (var x = 0; x < state.WIDTH; x++) {
@@ -512,3 +534,6 @@ function numHoles(state, agent) {
         return (BlackHoles - RedHoles);
     }
 }
+
+function 
+
