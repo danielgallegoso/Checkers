@@ -28,8 +28,9 @@ var Board = function (_React$Component) {
 
     var game = new checkersGame();
 
-    // var agent = new HandpickedMinimaxAgent(0);
-      var agent = new SmallWeightedMinimaxAgent([8.85416479703585, 5.785660703513314, 7.11398463977633, 3.8767288810654117, 5.198911856060783, 4.491689443443818, -11.823638006161922], 0, 4);
+    var agent = new HandpickedMinimaxAgent(0);
+    // var agent = new EightFactorEndMinimaxAgent([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], 0,4);
+      // var agent = new SmallWeightedMinimaxAgent([8.85416479703585, 5.785660703513314, 7.11398463977633, 3.8767288810654117, 5.198911856060783, 4.491689443443818, -11.823638006161922], 0, 4);
     // var agent = new RandomAgent();
     // var agent = new NaiveMinimaxAgent();
     //     var tester =

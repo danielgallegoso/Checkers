@@ -1,4 +1,3 @@
-
 class FastFactors {
   constructor(state) {
     this.vnumberOfPawns = 0;
@@ -14,33 +13,33 @@ class FastFactors {
         this.isEndgame = 1;
     }
 
-    for (var i = 0; i < state.WIDTH; i++) {
-        for (var j = 0; j < state.HEIGHT; j++) {
+    for (var x = 0; x < state.WIDTH; x++) {
+        for (var y = 0; y < state.HEIGHT; y++) {
             // numberOfPawns
-            if (state.board[i][j] == 1) {
+            if (state.board[x][y] == 1) {
                 this.vnumberOfPawns--;
-            } else if (state.board[i][j] == 3) {
+            } else if (state.board[x][y] == 3) {
                 this.vnumberOfPawns++;
             }
             // numberOfKings
-            if (state.board[i][j] == 2) {
+            if (state.board[x][y] == 2) {
                 this.vnumberOfPawns--;
-            } else if (state.board[i][j] == 4) {
+            } else if (state.board[x][y] == 4) {
                 this.vnumberOfPawns++;
             }
             // numSafePawns
-            if (i == 0 || i == 7 || j == 0 || j == 7) {
-                if (state.board[i][j] == 1) {
+            if (x == 0 || x == 7 || y == 0 || y == 7) {
+                if (state.board[x][y] == 1) {
                   this.vnumSafePawns--;
-                } else if (state.board[i][j] == 3) {
+                } else if (state.board[x][y] == 3) {
                     this.vnumSafePawns++;
                 }
             }
             // numSafeKings
-            if (i == 0 || i == 7 || j == 0 || j == 7) {
-                if (state.board[i][j] == 2) {
+            if (x == 0 || x == 7 || y == 0 || y == 7) {
+                if (state.board[x][y] == 2) {
                     this.vnumSafeKings--;
-                } else if (state.board[i][j] == 4) {
+                } else if (state.board[x][y] == 4) {
                     this.vnumSafeKings++;
                 }
             }
