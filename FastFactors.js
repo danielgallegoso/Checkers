@@ -1,4 +1,3 @@
-
 class FastFactors {
   constructor(state) {
     this.vnumberOfPawns = 0;
