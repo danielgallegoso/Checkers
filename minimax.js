@@ -19,7 +19,13 @@ class minimaxAgent {
         var self = this;
         var get_best_action = function (checkersState, depth, max_depth, turn, agent, alpha_beta) { //eval function in state
             if (checkersState.isWin(turn) == true || checkersState.isLose(turn) == true) {
-                return [null, checkersState.getScore()];
+                score = null;
+                if (turn == 0) {
+                    score = checkersState.getScore();
+                } else {
+                    score = 0 - checkersState.getScore();
+                }
+                return [null, score];
             }
             var legal_actions = checkersState.getLegalActions(turn);
             shuffle(legal_actions);
@@ -62,12 +68,13 @@ class minimaxAgent {
                 for (var i = 0; i < next_states.length; i++) {
                     var next_state = next_states[i];
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
-                        var next_score = null;
-                        if (next_states.length <= 2) {
-                            next_score = get_best_action(next_state, depth, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
-                        } else {
-                            next_score = get_best_action(next_state, depth + 1, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
-                        }
+                        var next_score = get_best_action(next_state, depth + 1, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                        // var next_score = null;
+                        // if (next_states.length <= 2) {
+                        //     next_score = get_best_action(next_state, depth, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                        // } else {
+                        //     next_score = get_best_action(next_state, depth + 1, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                        // }
                         if (i == 0) {
                             best_action = 0;
                             best_score = next_score;
