@@ -8,7 +8,7 @@ function shuffle(a) {
     }
 }
 
-class minimaxAgent {
+class qMinimaxAgent {
     constructor(evalFunc, depth, agent) {
         this.depth = depth; 
         this.evalFunc = evalFunc;
@@ -45,7 +45,7 @@ class minimaxAgent {
                             next_score = self.evalFunc(checkersState);
                         } else {
                             if (next_states.length <= 2) {
-                                next_score = get_best_action(next_state, depth + 0.25, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                                next_score = get_best_action(next_state, depth + 0.3, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                             } else {
                                 next_score = get_best_action(next_state, depth + 0.5, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                             }  
@@ -74,7 +74,7 @@ class minimaxAgent {
                     if ((alpha_beta[1] - alpha_beta[0]) > 0) {
                         var next_score = null
                         if (next_states.length <= 2) {
-                            next_score = get_best_action(next_state, depth + 0.25, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                            next_score = get_best_action(next_state, depth + 0.3, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                         } else {
                             next_score = get_best_action(next_state, depth + 0.5, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                         }  
