@@ -19,7 +19,13 @@ class minimaxAgent {
         var self = this;
         var get_best_action = function (checkersState, depth, max_depth, turn, agent, alpha_beta) { //eval function in state
             if (checkersState.isWin(turn) == true || checkersState.isLose(turn) == true) {
-                return [null, checkersState.getScore()];
+                score = null;
+                if (turn == 0) {
+                    score = checkersState.getScore();
+                } else {
+                    score = 0 - checkersState.getScore();
+                }
+                return [null, score];
             }
             var legal_actions = checkersState.getLegalActions(turn);
             shuffle(legal_actions);

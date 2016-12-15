@@ -31,8 +31,11 @@ var Board = function (_React$Component) {
     var black = new HandpickedMinimaxAgent(1);
     // var agent = new HandpickedMinimaxAgent(0);
     var agent = new EightFactorEndMinimaxAgent([28.832825961641,50.70966759281121,1.9435637268827906,2.7857607667600437,-1.85282373289457,1.3955662849527894,4.166512842818701,2.5152342975134427,-1.5598346485618542,2.7857641870838616,-1.770947945149443,-6.150039722762298,3.5367735714698454,-2.1172858070574057], 0, 4)
+    //var agent = new HandpickedMinimaxAgent(0);
     // var agent = new EightFactorEndMinimaxAgent([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], 0,4);
       // var agent = new SmallWeightedMinimaxAgent([8.85416479703585, 5.785660703513314, 7.11398463977633, 3.8767288810654117, 5.198911856060783, 4.491689443443818, -11.823638006161922], 0, 4);
+      // var agent = new SmallWeightedMinimaxAgent([ 7.327863586570951,28.594476823154842, 11.413194969156535, 21.50452947433098, -0.876022545574908, -3.9257956448002513, 4.088565195329731, 17.260724767905103 ], 0, 4);
+
     // var agent = new RandomAgent();
     // var agent = new NaiveMinimaxAgent();
     //     var tester =
