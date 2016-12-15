@@ -16,33 +16,33 @@ class FastFactors {
         this.isEndgame = 1;
     }
 
-    for (var i = 0; i < state.WIDTH; i++) {
-        for (var j = 0; j < state.HEIGHT; j++) {
+    for (var x = 0; x < state.WIDTH; x++) {
+        for (var y = 0; y < state.HEIGHT; y++) {
             // numberOfPawns
-            if (state.board[i][j] == 1) {
+            if (state.board[x][y] == 1) {
                 this.vnumberOfPawns--;
-            } else if (state.board[i][j] == 3) {
+            } else if (state.board[x][y] == 3) {
                 this.vnumberOfPawns++;
             }
             // numberOfKings
-            if (state.board[i][j] == 2) {
+            if (state.board[x][y] == 2) {
                 this.vnumberOfPawns--;
-            } else if (state.board[i][j] == 4) {
+            } else if (state.board[x][y] == 4) {
                 this.vnumberOfPawns++;
             }
             // numSafePawns
-            if (i == 0 || i == 7 || j == 0 || j == 7) {
-                if (state.board[i][j] == 1) {
+            if (x == 0 || x == 7 || y == 0 || y == 7) {
+                if (state.board[x][y] == 1) {
                   this.vnumSafePawns--;
-                } else if (state.board[i][j] == 3) {
+                } else if (state.board[x][y] == 3) {
                     this.vnumSafePawns++;
                 }
             }
             // numSafeKings
-            if (i == 0 || i == 7 || j == 0 || j == 7) {
-                if (state.board[i][j] == 2) {
+            if (x == 0 || x == 7 || y == 0 || y == 7) {
+                if (state.board[x][y] == 2) {
                     this.vnumSafeKings--;
-                } else if (state.board[i][j] == 4) {
+                } else if (state.board[x][y] == 4) {
                     this.vnumSafeKings++;
                 }
             }
@@ -175,6 +175,7 @@ class FastFactors {
     ];
   }
 }
+
 
 class checkersGame {
     //This class will make the state for our minimax problem
@@ -600,7 +601,7 @@ class checkersGame {
 class TDLearning {
     constructor(g, s) {
         this.gamma = g;
-        this.setSize = s;
+        this.stepSize = s;
 
         this.rand = this.rand.bind(this);
         this.learn = this.learn.bind(this);
@@ -616,10 +617,10 @@ class TDLearning {
     }
 
     V(state, weights, agent) {
-        features = new FastFactors(state);
-        featureVec = features.eightFactorArray(agent);
-        value = 0;
-        for(var i=0; weights.length; i++) {
+        var features = new FastFactors(state);
+        var featureVec = features.eightFactorArray(agent);
+        var value = 0;
+        for(var i=0; i < weights.length; i++) {
             value += featureVec[i] * weights[i];
         }
         return value;
@@ -637,62 +638,68 @@ class TDLearning {
 
         var game = new checkersGame();
         for (var round = 0; round < 100; round++) {
+            console.log(w0);
             var action = game.getLegalActions(0);
             var currAction = action[0]
             for(var a=1; a < action.length; a++) {
-                if (this.V(game.generateSuccessor(currAction, 0), w0, 0) < this.V(game.generateSuccessor(action[a], 0), w0, 0)) {
+                if (this.V(game.generateSuccessor(currAction, 0) , w0, 0) + game.generateSuccessor(currAction, 0).getScore()< this.V(game.generateSuccessor(action[a], 0), w0, 0) + game.generateSuccessor(action[a], 0).getScore()) {
                     currAction = action[a];
                 }
             }
-            succGame = game.generateSuccessor(currAction, 0);
+            console.log('b')
+            var succGame = game.generateSuccessor(currAction, 0);
             if (succGame.isWin(0) || succGame.isLose(0)) {
               var reward = 0;
-              reward =  game.isWin(0) ? 3 : -3;
-              this.train(game, reward, succGame, w0, 0);
+              reward = game.isWin(0) ? 20 : -20;
+              w0 = this.train(game, reward, succGame, w0, 0);
               return w0;
             }
-            this.train(game, 0, succGame, w0, 0);
-
+            w0 = this.train(game, succGame.getScore(), succGame, w0, 0);
+            console.log('c')
             var action = game.getLegalActions(1);
             var currAction = action[0]
             for(var a=1; a < action.length; a++) {
-                if (this.V(game.generateSuccessor(currAction, 1), w0, 1) < this.V(game.generateSuccessor(action[a], 1), w0, 1)) {
+                if (this.V(game.generateSuccessor(currAction, 1), w0, 1) + game.generateSuccessor(currAction, 1).getScore()< this.V(game.generateSuccessor(action[a], 1), w0, 1) + game.generateSuccessor(action[a], 1).getScore()) {
                     currAction = action[a];
                 }
             }
-            succGame = game.generateSuccessor(currAction, 1);
+            var succGame = game.generateSuccessor(currAction, 1);
             if (succGame.isWin(1) || succGame.isLose(1)) {
               var reward = 0;
-              reward =  game.isWin(1) ? 3 : -3;
-              this.train(game, reward, succGame, w0, 1);
+              reward =  game.isWin(1) ? 20 : -20;
+              w0 = his.train(game, reward, succGame, w0, 1);
               return w0;
             }
-            this.train(game, 0, succGame, w0, 1);
+            w0 = this.train(game, succGame.getScore(), succGame, w0, 1);
         }
 
         return w0;
     }
 
     objectiveFunction(oldState, reward, newState, weights, agent) {
-        return this.V(oldState, weights, agent) - (r + this.gamma * this.V(newState, weights, agent));
+        return this.V(oldState, weights, agent) - (reward + this.gamma * this.V(newState, weights, agent));
     }
 
     train(oldState, reward, newState, weights, agent) {
-        gradient = self.stepSize * objectiveFunction(oldState, reward, newState, weights, agent);
-        features = new FastFactors(state);
-        featureVec = features.eightFactorArray(agent);
-        value = 0;
-        for(var i=0; weights.length; i++) {
+        var gradient = this.stepSize * this.objectiveFunction(oldState, reward, newState, weights, agent);
+        var features = new FastFactors(oldState);
+        var featureVec = features.eightFactorArray(agent);
+        var value = 0;
+        for(var i=0; i < weights.length; i++) {
             weights[i] = weights[i] - gradient * featureVec[i];
         }
+        return weights;
     }
 
 }
 
-var tdLearning = new TDLearning(1, 0);
+var tdLearning = new TDLearning(0.5, 0.01);
 w0 = [0,0,0,0,0,0,0,0];
 w1 = [0,0,0,0,0,0,0,0];
-for(var i=0; i < 10; i++) {
+for(var i=0; i< w0.length; i++) {
+    w0[i] = w0[i] + tdLearning.rand();
+}
+for(var i=0; i < 1000; i++) {
     w0 = tdLearning.learn(w0, w1);
     console.log(w0);
 }
