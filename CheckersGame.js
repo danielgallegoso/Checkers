@@ -238,10 +238,10 @@ class checkersGame {
     recursiveEatSearch(x, y, piece, actions, path) {
         if(piece == 1) {
             var foundMove = false;
-            if (y+2 == 7) {
+            //if (y+2 == 7) {
                 //console.log('upgrade?');
-                piece = 2;
-            }
+            //    piece = 2;
+            //}
             if (this.inBounds(y+1, x+1) && this.board[y+1][x+1]>2 && this.inBounds(y+2, x+2) && this.board[y+2][x+2]==0) {
                 foundMove = true;
                 path.push([x+2, y+2]);
@@ -326,10 +326,10 @@ class checkersGame {
             }
         } else if(piece == 3) {
             var foundMove = false;
-            if (y-2 == 0) {
+            //if (y-2 == 0) {
                 //console.log('upgrade?')
-                piece = 4
-            }
+                //piece = 4
+            //}
             if (this.inBounds(y-1, x+1) && (this.board[y-1][x+1]==1 || this.board[y-1][x+1]==2)  && this.inBounds(y-2, x+2) && this.board[y-2][x+2]==0) {
                 foundMove = true;
                 path.push([x+2, y-2]);
