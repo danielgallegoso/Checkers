@@ -47,7 +47,7 @@ class qMinimaxAgent {
                             if (next_states.length <= 2) {
                                 next_score = get_best_action(next_state, depth + 0.3, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                             } else {
-                                next_score = get_best_action(next_state, depth + 0.5, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                                next_score = get_best_action(next_state, depth + 0.6, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                             }  
                         }
                         if (i == 0) {
@@ -76,7 +76,7 @@ class qMinimaxAgent {
                         if (next_states.length <= 2) {
                             next_score = get_best_action(next_state, depth + 0.3, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                         } else {
-                            next_score = get_best_action(next_state, depth + 0.5, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                            next_score = get_best_action(next_state, depth + 0.6, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
                         }  
                         if (i == 0) {
                             best_action = 0;
