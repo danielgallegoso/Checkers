@@ -5,16 +5,16 @@ class AgentEvolution {
       45,
       2,
       2,
-      1,
-      1,
-      4,
-      4,
-      -1,
-      -1,
-      0,
+      2,
+      2,
+      2,
       2,
       0,
-      2,
+      0,
+      0,
+      0,
+      0,
+      0,
     ];
     // for (var i = 0; i < 7; i++) this.winner[i] = 0;
     this.popSize = popSize;
@@ -38,8 +38,8 @@ class AgentEvolution {
     var p0 = new EightFactorEndMinimaxAgent(w0, 0, 3);
     var p1 = new EightFactorEndMinimaxAgent(w1, 1, 3);
     // console.log(w0, w1)
-    for (var a = 0; a < 5; a++) {
-      console.log(a)
+    for (var a = 0; a < 1; a++) {
+      // console.log(a)
       var game = new checkersGame();
       for (var round = 0; round < 100; round++) {
         game = game.generateSuccessor(p0.getAction(game),0);
@@ -87,4 +87,18 @@ class AgentEvolution {
       console.log(this.winner)
     }
   }
+
+  champion(numGenerations) {
+    for (var generation = 0; generation < numGenerations; generation++) {
+      var result = [this.winner[0] + this.random()*5,this.winner[1] + this.random()*5];
+      for (var i = 2; i < this.winner.length; i++) {
+         result[i] = this.winner[i] + this.random()*2;
+      }
+      var champ = this.simulateGame(this.winner, result);
+      if (this.winner.reduce(function(a, b) { return a + b; }, 0) != champ.reduce(function(a, b) { return a + b; }, 0)) {
+        console.log("Change in Winner:",generation);
+        console.log(JSON.stringify(champ));
+      }
+      this.winner = champ;
+    }
 }

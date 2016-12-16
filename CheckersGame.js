@@ -105,7 +105,7 @@ class checkersGame {
     // If the second element of the array is 1, then the action involves eating pieces
     // If not, then the action does not involve eating pieces.
 
-    generateSuccessor(action, agent) {
+    generateSuccessor(action, agent, turtles = 0) {
         var state = new checkersGame();
         state.numRedPieces = this.numRedPieces;
         state.numBlackPieces = this.numBlackPieces;
@@ -120,14 +120,23 @@ class checkersGame {
         var eating = action[action.length - 1];
 
         if(eating == 0) {
+            if (turtles == 1) {
+              console.log(agent, lastMove);
+            }
             state.board[lastMove[1]][lastMove[0]] = state.board[firstMove[1]][firstMove[0]];
             if(agent == 0 && lastMove[1] == 7) {
                 state.board[lastMove[1]][lastMove[0]]=2;
             } else if(agent == 1 && lastMove[1] == 0) {
-                state.board[lastMove[1]][lastMove[0]]=4;
+              if (turtles == 1) {
+                console.log("turtles");
+              }
+              state.board[lastMove[1]][lastMove[0]]=4;
             }
             state.board[firstMove[1]][firstMove[0]] = 0;
         } else {
+            if (turtles == 1) {
+              console.log(agent, lastMove);
+            }
             var containsUpgrade = false;
             for (var i = 0; i < action.length - 2; i ++) {
                 var first = action[i];
@@ -136,8 +145,14 @@ class checkersGame {
                 state.board[(first[1] + second[1]) / 2][(first[0] + second[0]) / 2] = 0;
                 if (agent == 0 && second[1] == 7) {
                     containsUpgrade = true;
+                    if (turtles == 1) {
+                      console.log("turtles");
+                    }
                 } else if (agent == 1 && second[1] == 0) {
                     containsUpgrade = true;
+                    if (turtles == 1) {
+                      console.log("turtles");
+                    }
                 }
             }
             state.board[lastMove[1]][lastMove[0]] = state.board[firstMove[1]][firstMove[0]];
@@ -429,6 +444,3 @@ console.log(game.board);
 
 console.log(game.isWin(1));
 console.log(game.isWin(0));
-
-
-
