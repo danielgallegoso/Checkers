@@ -1,0 +1,17 @@
+class TDLearningAgent {
+  constructor(agent) {
+    var weights = [ 13.026120839472771,
+  20.277174872746865,
+  3.323674717605918,
+  -0.24416204289543067,
+  0.26119633550302845,
+  0.19987813505777408,
+  -2.8503888246229905,
+  -0.06559679802024988 ];
+    this.agent = new EightFactorMinimaxAgent(weights, agent, 4)
+  }
+
+  getAction(game) {
+    return this.agent.getAction(game);
+  }
+}

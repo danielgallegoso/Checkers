@@ -1598,63 +1598,31 @@ var successes = 0
 var total = obj.length
 var state = new checkersGame()
 var tester = new NaiveMinimaxAgent(0);
- //var naiveMinimax = new NaiveMinimaxAgent()
-//
-// var weights = [4.270656236945501, 8.272722078071844, 4.824915178976637, 7.292838574253646, 4.079703915111446, 7.372571268013061, -8.679599941672302];
-// var weightedMinimax = new SmallWeightedMinimaxAgent(weights, 0, 4);
-// var handpickedMinimax = new HandpickedMinimaxAgent(0);
- //var randomAgent = new RandomAgent(0);
-// var turtles = new EightFactorEndMinimaxAgent([100, 150,   2, 1, 0, 2, 3, 4,   -2, -2, -1,-2, -2, 5],0,4)
-// // var turtles4 = new EightFactorEndMinimaxAgent([10, 15,   1, 1.5, 0,0,2,1,   0,0, 0,0,0,1],0,4)//best
-// var turtles3 = new EightFactorEndMinimaxAgent([10, 15,   1, 1.5, 0,0,2,1,   0,-1, 0,0,0,1],0,4)
-// var lazy = new EightFactorEndMinimaxAgent([20, 30, 1, 1, 3,2,2, 1, 2, -1, -1, 1, 2, 5], 0,4)
-//
-// // var turtles4 = new EightFactorEndMinimaxAgent([10, 15,   1, 1.5, 0,0,2,1,   0,0,-.5,0,0,1],0,4)
-// var turtles4 = new EightFactorEndMinimaxAgent([10, 15,   1, 1.5, 0,0,2,1,   .5,.5,-1,-.5,.5,1],0,4)
 
 
+function simulateGame(player1, player2, player1Name, player2Name) {
+   var game = new checkersGame();
+    for (var round = 0; round < 200; round++) {
+        var currAction = player1.getAction(game);
+        var game = game.generateSuccessor(currAction, 0);
+        console.log(game.board)
+        if (game.isWin(0) || game.isLose(0)) {
+          game.isWin(0) ? console.log(player1Name + " won a") : console.log(player2Name + " won a");
+            return
+        }
 
-
-var numCorrectMoves = 0;
-var numTotalMoves = 0;
-var counter = 0;
-
-for (var i in obj) {
-	state.board = obj[i].board;
-	var redPieces = 0;
-	var blackPieces = 0;
-	for (var x = 0; x < state.WIDTH; x++) {
-        for (var y = 0; y < state.HEIGHT; y ++) {
-            if (state.board[y][x] == 1 || state.board[y][x] == 2) {
-            	redPieces++;
-            } else if (state.board[y][x] == 3 || state.board[y][x] == 4) {
-				blackPieces++;
-			}
-		}
-	}
-	state.numRedPieces = redPieces;
-	state.numBlackPieces = blackPieces;
-    if(state.getLegalActions(0).length==1) continue;
-  // console.log("get action")
-	minimaxAction = tester.getAction(state)
-    //console.log(minimaxAction)
-  // console.log("done")
-	action = obj[i].move;
-
-    //console.log(action);
-    //console.log(minimaxAction);
-
-    if(equal(action, minimaxAction)) {
-        numCorrectMoves ++;
-    }
-    numTotalMoves++;
-    //
-    // if(counter%10 == 0) {
-    //    console.log(counter);
-    //    console.log(numCorrectMoves / numTotalMoves);
-    // }
-    counter++;
+        var currAction = player2.getAction(game);
+        var game = game.generateSuccessor(currAction, 1);
+        console.log(game.board)
+        if (game.isWin(1) || game.isLose(1)) {
+          game.isWin(1) ? console.log(player2Name + " won b") : console.log(player1Name + " won b");
+            return
+        }
+    } 
+    console.log("The game ended in a tie");
 }
-console.log(numCorrectMoves);
-console.log(numTotalMoves);
-console.log(numCorrectMoves / numTotalMoves);
+
+var player1 = new RandomAgent(0);
+var player2 = new TDLearningAgent(1);
+simulateGame(player1, player2, "random", "naive");
+

@@ -1,5 +1,118 @@
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
 
+class minimaxAgent {
+    constructor(evalFunc, depth, agent) {
+        this.depth = depth;
+        this.evalFunc = evalFunc;
+        this.agent = agent
+    }
 
+    getAction(checkersState) {
+        var self = this;
+        var get_best_action = function (checkersState, depth, max_depth, turn, agent, alpha_beta) { //eval function in state
+            if (checkersState.isWin(turn) == true || checkersState.isLose(turn) == true) {
+                var score = null;
+                if (turn == 0) {
+                    score = checkersState.getScore();
+                } else {
+                    score = 0 - checkersState.getScore();
+                }
+                return [null, score];
+            }
+            var legal_actions = checkersState.getLegalActions(turn);
+            shuffle(legal_actions);
+            var next_states = [];
+            for (var i in legal_actions) {
+              next_states.push(checkersState.generateSuccessor(legal_actions[i], turn));
+            }
+            var best_action = null;
+            var best_score = null;
+
+            if (turn == agent) { // maximize!
+                for (var i = 0; i < next_states.length; i++) {
+                    var next_state = next_states[i];
+                    if ((alpha_beta[1] - alpha_beta[0]) > 0) {
+                        var next_score = null
+                        if (depth == max_depth) {
+                          next_score = self.evalFunc(checkersState);
+                        } else {
+                          next_score = get_best_action(next_state, depth, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                        }
+                        if (i == 0) {
+                            best_action = 0;
+                            best_score = next_score;
+                            if (best_score > alpha_beta[0]) {
+                                alpha_beta = [best_score, alpha_beta[1]];
+                            }
+                        } else {
+                            if (next_score > best_score) {
+                                best_action = i;
+                                best_score = next_score;
+                                if (best_score > alpha_beta[0]) {
+                                    alpha_beta = [best_score, alpha_beta[1]]
+                                }
+                            }
+                        }
+                    }
+                }
+                return [legal_actions[best_action], best_score];
+            } else { //minimize!
+                for (var i = 0; i < next_states.length; i++) {
+                    var next_state = next_states[i];
+                    if ((alpha_beta[1] - alpha_beta[0]) > 0) {
+                        var next_score = get_best_action(next_state, depth + 1, max_depth, (turn + 1) % 2, agent, alpha_beta)[1];
+                        if (i == 0) {
+                            best_action = 0;
+                            best_score = next_score;
+                            if (best_score < alpha_beta[1]) {
+                                alpha_beta = [alpha_beta[0], best_score];
+                            }
+                        } else {
+                            if (next_score < best_score) {
+                                best_action = i;
+                                best_score = next_score;
+                                if (best_score < alpha_beta[1]) {
+                                    alpha_beta = [alpha_beta[0], best_score];
+                                }
+                            }
+                        }
+                    }
+                }
+                return [legal_actions[best_action], best_score];
+            }
+        }
+    var alpha_beta = [0 - Infinity, Infinity];
+    var best_action = get_best_action(checkersState, 0, this.depth, this.agent, this.agent, alpha_beta); //state, agent, max_depth = 4, depth, agent, alpha_beta
+    return best_action[0];
+    }
+}
+
+class EightFactorMinimaxAgent {
+  constructor(weights, agent, depth) {
+    var evalFunc = function(game) {
+      var score = 0;
+      var fastFactors = new FastFactors(game);
+      var factors = fastFactors.eightFactorArray(agent);
+      for (var i in factors) {
+        score += factors[i] * weights[i];
+      }
+      return score;
+    }
+    this.minimax = new minimaxAgent(evalFunc, depth, agent);
+  }
+
+  getAction(game) {
+    return this.minimax.getAction(game);
+  }
+}
 
 class FastFactors {
   constructor(state) {
@@ -639,7 +752,7 @@ class TDLearning {
         var game = new checkersGame();
         for (var round = 0; round < 100; round++) {
             console.log(w0);
-            var p0 = new SmallWeightedMinimaxAgent(w0, 0, 2);
+            var p0 = new EightFactorMinimaxAgent(w0, 0, 2);
             var currAction = p0.getAction(game);/*
             var action = game.getLegalActions(0);
             var currAction = action[0]
@@ -665,7 +778,7 @@ class TDLearning {
                 }
             }
 
-            var p0 = new SmallWeightedMinimaxAgent(w0, 1, 2);
+            var p0 = new EightFactorMinimaxAgent(w0, 1, 2);
             var currAction = p0.getAction(game);
             var succGame = game.generateSuccessor(currAction, 1);
             if (succGame.isWin(1) || succGame.isLose(1)) {
@@ -703,8 +816,8 @@ class TDLearning {
 }
 
 var tdLearning = new TDLearning(1, 0.01);
-w0 = [20,20,0,0,0,0,0,0];
-w1 = [10,10,0,0,0,0,0,0];
+w0 = [0,0,0,0,0,0,0,0];
+w1 = [0,0,0,0,0,0,0,0];
 for(var i=0; i< w0.length; i++) {
     w0[i] = w0[i] + tdLearning.rand();
 }
@@ -713,6 +826,19 @@ for(var i=0; i < 1000; i++) {
     w0 = tdLearning.learn(w0, w1);
     console.log(w0);
 }
+
+/*
+[ 13.026120839472771,
+  20.277174872746865,
+  3.323674717605918,
+  -0.24416204289543067,
+  0.26119633550302845,
+  0.19987813505777408,
+  -2.8503888246229905,
+  -0.06559679802024988 ]
+
+
+*/
 
 
 
