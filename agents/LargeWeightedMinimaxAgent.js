@@ -1,4 +1,4 @@
-class WeightedMinimaxAgent {
+class LargeWeightedMinimaxAgent {
   constructor(weights, agent, depth) {
     var evalFunc = function(game) {
       var score = 0;
