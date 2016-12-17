@@ -1,3 +1,6 @@
+//Scroll to the bottom to see the relevant code. Javascript does not let you import
+//files so we had to copy in a lot of code
+
 function shuffle(a) {
     var j, x, i;
     for (i = a.length; i; i--) {
@@ -817,7 +820,6 @@ class TDLearning {
 
 var tdLearning = new TDLearning(1, 0.01);
 w0 = [0,0,0,0,0,0,0,0];
-w1 = [0,0,0,0,0,0,0,0];
 for(var i=0; i< w0.length; i++) {
     w0[i] = w0[i] + tdLearning.rand();
 }

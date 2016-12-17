@@ -1,3 +1,6 @@
+//Scroll to the bottom to see the relevant code. Javascript does not let you import
+//files so we had to copy in a lot of code
+
 
 class checkersGame {
     //This class will make the state for our minimax problem
@@ -1367,15 +1370,22 @@ class RandomAgent {
 class NaiveMinimaxAgent {
   constructor(agent) {
     var evalFunc = function(game) {
-      return game.getScore();
+        var score = 0
+        if (agent == 0) {
+            score = game.getScore();
+        } else {
+            score = 0 - game.getScore();
+        }
+        return score;
     }
-    this.minimax = new minimaxAgent(evalFunc, 4, agent);
+    this.minimax = new minimaxAgent(evalFunc, 3, agent);
   }
 
   getAction(game) {
     return this.minimax.getAction(game);
   }
 }
+
 
 
 class HandpickedMinimaxAgent {
@@ -1390,7 +1400,7 @@ class HandpickedMinimaxAgent {
       score += numCentralKings(game, agent) * 1;
       return score;
     }
-    this.minimax = new minimaxAgent(evalFunc, 4, agent);
+    this.minimax = new minimaxAgent(evalFunc, 3, agent);
   }
 
   getAction(game) {
@@ -1451,7 +1461,7 @@ class FullFactorEvolutionaryAgent {
       -1.7794835733612788,
       -5.916041119156512,
       -2.875900864145535 ];
-    this.agent = new LargeWeightedMinimaxAgent(weights, agent, 4)
+    this.agent = new LargeWeightedMinimaxAgent(weights, agent, 3)
   }
 
   getAction(game) {
@@ -1489,7 +1499,7 @@ class EightFactorEvolutionaryAgent {
       -5.522701844285107,
       10.925037969673637,
       0.6380088696436439];
-    this.agent = new EightFactorMinimaxAgent(weights, agent, 4)
+    this.agent = new EightFactorMinimaxAgent(weights, agent, 3)
   }
 
   getAction(game) {
@@ -1512,7 +1522,7 @@ class EightFactorEndEvolutionaryAgent {
       -5.224852895753143,
       0.5808764183966684,
       2.8696641987523694];
-    this.agent = new EightFactorEndMinimaxAgent(weights, agent, 4)
+    this.agent = new EightFactorEndMinimaxAgent(weights, agent, 3)
   }
 
   getAction(game) {
@@ -1532,7 +1542,7 @@ class HandpickedEndQuiesceAgent {
       }
       return score;
     }
-    this.minimax = new qMinimaxAgent(evalFunc, 4, agent);
+    this.minimax = new qMinimaxAgent(evalFunc, 3, agent);
   }
 
   getAction(game) {
@@ -1543,7 +1553,7 @@ class HandpickedEndQuiesceAgent {
 class HandpickedEndAgent {
   constructor(agent) {
     var weights = [10, 15,1, 1.5, 0,0,2,1,.5,.5,-1,-.5,.5,1];
-    this.agent = new EightFactorEndMinimaxAgent(weights, agent, 4)
+    this.agent = new EightFactorEndMinimaxAgent(weights, agent, 3)
   }
 
   getAction(game) {
@@ -1561,7 +1571,7 @@ class TDLearningAgent {
   0.19987813505777408,
   -2.8503888246229905,
   -0.06559679802024988 ];
-    this.agent = new EightFactorMinimaxAgent(weights, agent, 4)
+    this.agent = new EightFactorMinimaxAgent(weights, agent, 3)
   }
 
   getAction(game) {
@@ -1602,10 +1612,10 @@ var tester = new NaiveMinimaxAgent(0);
 
 function simulateGame(player1, player2, player1Name, player2Name) {
    var game = new checkersGame();
-    for (var round = 0; round < 200; round++) {
+    for (var round = 0; round < 70; round++) {
         var currAction = player1.getAction(game);
         var game = game.generateSuccessor(currAction, 0);
-        console.log(game.board)
+        //console.log(game.board)
         if (game.isWin(0) || game.isLose(0)) {
           game.isWin(0) ? console.log(player1Name + " won a") : console.log(player2Name + " won a");
             return
@@ -1613,7 +1623,7 @@ function simulateGame(player1, player2, player1Name, player2Name) {
 
         var currAction = player2.getAction(game);
         var game = game.generateSuccessor(currAction, 1);
-        console.log(game.board)
+        //console.log(game.board)
         if (game.isWin(1) || game.isLose(1)) {
           game.isWin(1) ? console.log(player2Name + " won b") : console.log(player1Name + " won b");
             return
@@ -1622,7 +1632,16 @@ function simulateGame(player1, player2, player1Name, player2Name) {
     console.log("The game ended in a tie");
 }
 
-var player1 = new RandomAgent(0);
-var player2 = new TDLearningAgent(1);
-simulateGame(player1, player2, "random", "naive");
+//var player1 = new RandomAgent(0);
+//var naive = new NaiveMinimaxAgent(1);
+//var SmallEvol = new EightFactorEvolutionaryAgent(0)
+//var SmallEvolEnd = new EightFactorEndEvolutionaryAgent(0)
+var LargeEvol = new FullFactorEvolutionaryAgent(1)
+//var td = new TDLearningAgent(1)
+var Hand = new HandpickedMinimaxAgent(1)
+var HandEnd = new HandpickedEndAgent(1)
+var HandEndQuies = new HandpickedEndQuiesceAgent(0)
+
+//simulateGame( HandEnd, Hand, "player 0", "player 1");
+simulateGame( HandEndQuies, HandEnd,"player 0", "player 1");
 

@@ -1,3 +1,6 @@
+//Scroll to the bottom to see the relevant code. Javascript does not let you import
+//files so we had to copy in a lot of code
+
 
 class checkersGame {
     //This class will make the state for our minimax problem
@@ -1367,7 +1370,12 @@ class RandomAgent {
 class NaiveMinimaxAgent {
   constructor(agent) {
     var evalFunc = function(game) {
-      return game.getScore();
+        if (agent == 0) {
+            score = checkersState.getScore();
+        } else {
+            score = 0 - checkersState.getScore();
+        }
+        return score;
     }
     this.minimax = new minimaxAgent(evalFunc, 4, agent);
   }
@@ -1376,6 +1384,7 @@ class NaiveMinimaxAgent {
     return this.minimax.getAction(game);
   }
 }
+
 
 
 class HandpickedMinimaxAgent {
