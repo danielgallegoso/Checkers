@@ -639,14 +639,15 @@ class TDLearning {
         var game = new checkersGame();
         for (var round = 0; round < 100; round++) {
             console.log(w0);
+            var p0 = new SmallWeightedMinimaxAgent(w0, 0, 2);
+            var currAction = p0.getAction(game);/*
             var action = game.getLegalActions(0);
             var currAction = action[0]
             for(var a=1; a < action.length; a++) {
                 if (this.V(game.generateSuccessor(currAction, 0) , w0, 0) + game.generateSuccessor(currAction, 0).getScore()< this.V(game.generateSuccessor(action[a], 0), w0, 0) + game.generateSuccessor(action[a], 0).getScore()) {
                     currAction = action[a];
                 }
-            }
-            console.log('b')
+            }*/
             var succGame = game.generateSuccessor(currAction, 0);
             if (succGame.isWin(0) || succGame.isLose(0)) {
               var reward = 0;
@@ -654,23 +655,27 @@ class TDLearning {
               w0 = this.train(game, reward, succGame, w0, 0);
               return w0;
             }
-            w0 = this.train(game, succGame.getScore(), succGame, w0, 0);
-            console.log('c')
+            w0 = this.train(game, succGame.getScore() - game.getScore(), succGame, w0, 0);
+            game = succGame;
             var action = game.getLegalActions(1);
             var currAction = action[0]
             for(var a=1; a < action.length; a++) {
-                if (this.V(game.generateSuccessor(currAction, 1), w0, 1) + game.generateSuccessor(currAction, 1).getScore()< this.V(game.generateSuccessor(action[a], 1), w0, 1) + game.generateSuccessor(action[a], 1).getScore()) {
+                if (this.V(game.generateSuccessor(currAction, 1), w0, 1) - game.generateSuccessor(currAction, 1).getScore()< this.V(game.generateSuccessor(action[a], 1), w0, 1) - game.generateSuccessor(action[a], 1).getScore()) {
                     currAction = action[a];
                 }
             }
+
+            var p0 = new SmallWeightedMinimaxAgent(w0, 1, 2);
+            var currAction = p0.getAction(game);
             var succGame = game.generateSuccessor(currAction, 1);
             if (succGame.isWin(1) || succGame.isLose(1)) {
               var reward = 0;
               reward =  game.isWin(1) ? 20 : -20;
-              w0 = his.train(game, reward, succGame, w0, 1);
+              w0 = this.train(game, reward, succGame, w0, 1);
               return w0;
             }
-            w0 = this.train(game, succGame.getScore(), succGame, w0, 1);
+            w0 = this.train(game, succGame.getScore() - game.getScore(), succGame, w0, 1);
+            game = succGame
         }
 
         return w0;
@@ -685,20 +690,25 @@ class TDLearning {
         var features = new FastFactors(oldState);
         var featureVec = features.eightFactorArray(agent);
         var value = 0;
+        //console.log(gradient);
+        //console.log('Features:')
+        //console.log(featureVec)
         for(var i=0; i < weights.length; i++) {
             weights[i] = weights[i] - gradient * featureVec[i];
+            //console.log(weights[i])
         }
         return weights;
     }
 
 }
 
-var tdLearning = new TDLearning(0.5, 0.01);
-w0 = [0,0,0,0,0,0,0,0];
-w1 = [0,0,0,0,0,0,0,0];
+var tdLearning = new TDLearning(1, 0.01);
+w0 = [20,20,0,0,0,0,0,0];
+w1 = [10,10,0,0,0,0,0,0];
 for(var i=0; i< w0.length; i++) {
     w0[i] = w0[i] + tdLearning.rand();
 }
+
 for(var i=0; i < 1000; i++) {
     w0 = tdLearning.learn(w0, w1);
     console.log(w0);
